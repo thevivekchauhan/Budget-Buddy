@@ -4,7 +4,7 @@ A clean, modern React template with TypeScript, Vite, TailwindCSS, and ShadCN UI
 
 ## Tech Features
 
-- ⚡️ **Vite** - Lightning fast build tool
+- ⚡️ **Vite123** - Lightning fast build tool
 - 🔥 **React 18** - Latest React features
 - 🧩 **TypeScript** - Type safety for better developer experience
 - 🎨 **TailwindCSS** - Utility-first CSS framework
