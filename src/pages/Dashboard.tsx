@@ -74,30 +74,24 @@ const Dashboard = () => {
   const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
 
   const StatCard = ({ title, value, icon, trend, trendValue, className = ""
-
-
-
-
-
-
   }: {title: string;value: string | number;icon: React.ReactNode;trend?: 'up' | 'down';trendValue?: string;className?: string;}) =>
-  <Card className={`hover:shadow-lg transition-all duration-300 ${className}`} data-id="u025wfywu" data-path="src/pages/Dashboard.tsx">
-      <CardContent className="p-6" data-id="82judkpto" data-path="src/pages/Dashboard.tsx">
-        <div className="flex items-center justify-between" data-id="cck3yy4fc" data-path="src/pages/Dashboard.tsx">
-          <div data-id="nkwzfwxrc" data-path="src/pages/Dashboard.tsx">
-            <p className="text-sm font-medium text-gray-600" data-id="p3m134iel" data-path="src/pages/Dashboard.tsx">{title}</p>
-            <p className="text-2xl font-bold text-gray-900" data-id="2y9lqfdbh" data-path="src/pages/Dashboard.tsx">
+  <Card className={`hover:shadow-lg transition-all duration-300 ${className}`} data-id="lv03ee63p" data-path="src/pages/Dashboard.tsx">
+      <CardContent className="p-4 md:p-6" data-id="7mf81ts6j" data-path="src/pages/Dashboard.tsx">
+        <div className="flex items-center justify-between" data-id="3pznsu2iq" data-path="src/pages/Dashboard.tsx">
+          <div className="flex-1 min-w-0" data-id="b2ptoyp17" data-path="src/pages/Dashboard.tsx">
+            <p className="text-xs md:text-sm font-medium text-gray-600 truncate" data-id="48ivlvbec" data-path="src/pages/Dashboard.tsx">{title}</p>
+            <p className="text-lg md:text-2xl font-bold text-gray-900 truncate" data-id="29w6r9t58" data-path="src/pages/Dashboard.tsx">
               {typeof value === 'number' && title.includes('₹') ? `₹${value.toLocaleString()}` : value}
             </p>
             {trend && trendValue &&
-          <div className={`flex items-center mt-1 ${trend === 'up' ? 'text-green-600' : 'text-red-600'}`} data-id="z8dtayipw" data-path="src/pages/Dashboard.tsx">
-                {trend === 'up' ? <TrendingUp className="h-4 w-4 mr-1" data-id="l5rksecg2" data-path="src/pages/Dashboard.tsx" /> : <TrendingDown className="h-4 w-4 mr-1" data-id="gfdzo29ek" data-path="src/pages/Dashboard.tsx" />}
-                <span className="text-sm" data-id="4i4jqiuwp" data-path="src/pages/Dashboard.tsx">{trendValue}</span>
+          <div className={`flex items-center mt-1 ${trend === 'up' ? 'text-green-600' : 'text-red-600'}`} data-id="ssdy2hg6b" data-path="src/pages/Dashboard.tsx">
+                {trend === 'up' ? <TrendingUp className="h-3 w-3 md:h-4 md:w-4 mr-1" data-id="t9587zwjz" data-path="src/pages/Dashboard.tsx" /> : <TrendingDown className="h-3 w-3 md:h-4 md:w-4 mr-1" data-id="me2vz15td" data-path="src/pages/Dashboard.tsx" />}
+                <span className="text-xs md:text-sm" data-id="khvt5qwby" data-path="src/pages/Dashboard.tsx">{trendValue}</span>
               </div>
           }
           </div>
-          <div className="text-gray-400" data-id="94bgbsm3l" data-path="src/pages/Dashboard.tsx">
-            {icon}
+          <div className="text-gray-400 ml-2 flex-shrink-0" data-id="t2mh13nnz" data-path="src/pages/Dashboard.tsx">
+            <div className="h-6 w-6 md:h-8 md:w-8" data-id="bdhdrjb7p" data-path="src/pages/Dashboard.tsx">{icon}</div>
           </div>
         </div>
       </CardContent>
@@ -105,44 +99,44 @@ const Dashboard = () => {
 
 
   const QuickActions = () =>
-  <Card data-id="uzmjhmn7t" data-path="src/pages/Dashboard.tsx">
-      <CardHeader data-id="8w50817d8" data-path="src/pages/Dashboard.tsx">
-        <CardTitle className="flex items-center gap-2" data-id="5ouvyflc2" data-path="src/pages/Dashboard.tsx">
-          <Plus className="h-5 w-5" data-id="mzy3z4dlk" data-path="src/pages/Dashboard.tsx" />
+  <Card data-id="o7d9jk487" data-path="src/pages/Dashboard.tsx">
+      <CardHeader data-id="yla9h4evf" data-path="src/pages/Dashboard.tsx">
+        <CardTitle className="flex items-center gap-2" data-id="0tmns5ujt" data-path="src/pages/Dashboard.tsx">
+          <Plus className="h-5 w-5" data-id="1r8wnbfbq" data-path="src/pages/Dashboard.tsx" />
           Quick Actions
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3" data-id="vvg2jcc53" data-path="src/pages/Dashboard.tsx">
+      <CardContent className="space-y-3" data-id="rl7br5op0" data-path="src/pages/Dashboard.tsx">
         <Button
         className="w-full justify-start"
         variant="outline"
-        onClick={() => navigate('/expenses')} data-id="70wv6exyr" data-path="src/pages/Dashboard.tsx">
+        onClick={() => navigate('/expenses')} data-id="m3lwfhc4u" data-path="src/pages/Dashboard.tsx">
 
-          <Receipt className="h-4 w-4 mr-2" data-id="ydko87i2x" data-path="src/pages/Dashboard.tsx" />
+          <Receipt className="h-4 w-4 mr-2" data-id="9idfh6kio" data-path="src/pages/Dashboard.tsx" />
           Add Expense
         </Button>
         <Button
         className="w-full justify-start"
         variant="outline"
-        onClick={() => navigate('/income')} data-id="5r38ht25y" data-path="src/pages/Dashboard.tsx">
+        onClick={() => navigate('/income')} data-id="mcam3zoof" data-path="src/pages/Dashboard.tsx">
 
-          <TrendingUp className="h-4 w-4 mr-2" data-id="jg1pjp3p3" data-path="src/pages/Dashboard.tsx" />
+          <TrendingUp className="h-4 w-4 mr-2" data-id="2p9pccazp" data-path="src/pages/Dashboard.tsx" />
           Add Income
         </Button>
         <Button
         className="w-full justify-start"
         variant="outline"
-        onClick={() => navigate('/budget')} data-id="gs4ftxhew" data-path="src/pages/Dashboard.tsx">
+        onClick={() => navigate('/budget')} data-id="ync7rn3s2" data-path="src/pages/Dashboard.tsx">
 
-          <Target className="h-4 w-4 mr-2" data-id="zixd1m48z" data-path="src/pages/Dashboard.tsx" />
+          <Target className="h-4 w-4 mr-2" data-id="lwffkfs8x" data-path="src/pages/Dashboard.tsx" />
           Set Budget
         </Button>
         <Button
         className="w-full justify-start"
         variant="outline"
-        onClick={() => navigate('/goals')} data-id="amn0gqkmf" data-path="src/pages/Dashboard.tsx">
+        onClick={() => navigate('/goals')} data-id="k4ru75xl7" data-path="src/pages/Dashboard.tsx">
 
-          <PiggyBank className="h-4 w-4 mr-2" data-id="s03s29yv8" data-path="src/pages/Dashboard.tsx" />
+          <PiggyBank className="h-4 w-4 mr-2" data-id="jk1lg2aal" data-path="src/pages/Dashboard.tsx" />
           New Goal
         </Button>
       </CardContent>
@@ -150,94 +144,94 @@ const Dashboard = () => {
 
 
   return (
-    <DashboardLayout data-id="x8ooaywid" data-path="src/pages/Dashboard.tsx">
-      <div className="p-6 space-y-6" data-id="uk9taebqm" data-path="src/pages/Dashboard.tsx">
+    <DashboardLayout data-id="vphpj37zk" data-path="src/pages/Dashboard.tsx">
+      <div className="p-4 md:p-6 lg:p-8 space-y-4 md:space-y-6 max-w-7xl mx-auto" data-id="k22aftr3h" data-path="src/pages/Dashboard.tsx">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4" data-id="n6zu90v3l" data-path="src/pages/Dashboard.tsx">
-          <div data-id="rfzxc092g" data-path="src/pages/Dashboard.tsx">
-            <h1 className="text-3xl font-bold text-gray-900" data-id="d0sba989x" data-path="src/pages/Dashboard.tsx">Dashboard</h1>
-            <p className="text-gray-600" data-id="w49fu64pg" data-path="src/pages/Dashboard.tsx">Welcome back! Here's your financial overview.</p>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4" data-id="djowoo26u" data-path="src/pages/Dashboard.tsx">
+          <div data-id="8c06hqoa3" data-path="src/pages/Dashboard.tsx">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900" data-id="yvn9jhcye" data-path="src/pages/Dashboard.tsx">Dashboard</h1>
+            <p className="text-sm md:text-base text-gray-600" data-id="654x0uldc" data-path="src/pages/Dashboard.tsx">Welcome back! Here's your financial overview.</p>
           </div>
-          <div className="flex gap-2" data-id="xskocw251" data-path="src/pages/Dashboard.tsx">
-            <Button variant="outline" size="sm" data-id="7noz7sesu" data-path="src/pages/Dashboard.tsx">
-              <Filter className="h-4 w-4 mr-2" data-id="jxh4evvx6" data-path="src/pages/Dashboard.tsx" />
-              Filter
+          <div className="flex flex-wrap gap-2" data-id="7bgpaknvc" data-path="src/pages/Dashboard.tsx">
+            <Button variant="outline" size="sm" className="flex-shrink-0" data-id="j9csx55wu" data-path="src/pages/Dashboard.tsx">
+              <Filter className="h-4 w-4 mr-1 md:mr-2" data-id="e153tndl4" data-path="src/pages/Dashboard.tsx" />
+              <span className="hidden sm:inline" data-id="h6qf4tya9" data-path="src/pages/Dashboard.tsx">Filter</span>
             </Button>
-            <Button variant="outline" size="sm" data-id="jx4wp8k65" data-path="src/pages/Dashboard.tsx">
-              <Calendar className="h-4 w-4 mr-2" data-id="8kfhadygf" data-path="src/pages/Dashboard.tsx" />
-              This Month
+            <Button variant="outline" size="sm" className="flex-shrink-0" data-id="widxdxae1" data-path="src/pages/Dashboard.tsx">
+              <Calendar className="h-4 w-4 mr-1 md:mr-2" data-id="ocihv22x6" data-path="src/pages/Dashboard.tsx" />
+              <span className="hidden sm:inline" data-id="qx5w1n7ki" data-path="src/pages/Dashboard.tsx">This Month</span>
             </Button>
           </div>
         </div>
 
         {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-id="jq5npd4z8" data-path="src/pages/Dashboard.tsx">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6" data-id="gly4bd0yi" data-path="src/pages/Dashboard.tsx">
           <StatCard
             title="Total Balance"
             value={`₹${dashboardData.totalBalance.toLocaleString()}`}
-            icon={<Wallet className="h-8 w-8" data-id="osm8oygw7" data-path="src/pages/Dashboard.tsx" />}
+            icon={<Wallet className="h-8 w-8" data-id="j6855okoz" data-path="src/pages/Dashboard.tsx" />}
             trend="up"
             trendValue="+12.5%"
-            className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200" data-id="lfzn9scbe" data-path="src/pages/Dashboard.tsx" />
+            className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200" data-id="tj8ved15a" data-path="src/pages/Dashboard.tsx" />
 
           <StatCard
             title="Monthly Income"
             value={`₹${dashboardData.monthlyIncome.toLocaleString()}`}
-            icon={<TrendingUp className="h-8 w-8" data-id="jcl0ce8ol" data-path="src/pages/Dashboard.tsx" />}
+            icon={<TrendingUp className="h-8 w-8" data-id="zd6ohnpwv" data-path="src/pages/Dashboard.tsx" />}
             trend="up"
             trendValue="+5.2%"
-            className="bg-gradient-to-br from-green-50 to-green-100 border-green-200" data-id="m7ur40sje" data-path="src/pages/Dashboard.tsx" />
+            className="bg-gradient-to-br from-green-50 to-green-100 border-green-200" data-id="9ejvhnilk" data-path="src/pages/Dashboard.tsx" />
 
           <StatCard
             title="Monthly Expenses"
             value={`₹${dashboardData.monthlyExpenses.toLocaleString()}`}
-            icon={<TrendingDown className="h-8 w-8" data-id="nkabirlhi" data-path="src/pages/Dashboard.tsx" />}
+            icon={<TrendingDown className="h-8 w-8" data-id="oom8bnvs2" data-path="src/pages/Dashboard.tsx" />}
             trend="down"
             trendValue="-3.1%"
-            className="bg-gradient-to-br from-red-50 to-red-100 border-red-200" data-id="wedlbdvwo" data-path="src/pages/Dashboard.tsx" />
+            className="bg-gradient-to-br from-red-50 to-red-100 border-red-200" data-id="d14rq1bgc" data-path="src/pages/Dashboard.tsx" />
 
           <StatCard
             title="Budget Used"
             value={`${dashboardData.budgetUsed}%`}
-            icon={<Target className="h-8 w-8" data-id="xd9gbpuqv" data-path="src/pages/Dashboard.tsx" />}
-            className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200" data-id="ax3g0bci0" data-path="src/pages/Dashboard.tsx" />
+            icon={<Target className="h-8 w-8" data-id="ppi46rl6n" data-path="src/pages/Dashboard.tsx" />}
+            className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200" data-id="v6uv5d9ee" data-path="src/pages/Dashboard.tsx" />
 
         </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" data-id="io4patoxo" data-path="src/pages/Dashboard.tsx">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 md:gap-6" data-id="th4k0vte8" data-path="src/pages/Dashboard.tsx">
           {/* Charts and Analytics */}
-          <div className="lg:col-span-2 space-y-6" data-id="l0pjwgrh4" data-path="src/pages/Dashboard.tsx">
+          <div className="xl:col-span-2 space-y-4 md:space-y-6" data-id="j1mrl05ki" data-path="src/pages/Dashboard.tsx">
             {/* Monthly Trend Chart */}
-            <Card data-id="refso5acy" data-path="src/pages/Dashboard.tsx">
-              <CardHeader data-id="nw5n43yy9" data-path="src/pages/Dashboard.tsx">
-                <CardTitle data-id="ys05eucvj" data-path="src/pages/Dashboard.tsx">Income vs Expenses Trend</CardTitle>
-                <CardDescription data-id="2jghcgzjn" data-path="src/pages/Dashboard.tsx">Your financial performance over the last 5 months</CardDescription>
+            <Card data-id="hdk48de63" data-path="src/pages/Dashboard.tsx">
+              <CardHeader data-id="vgwumyqz2" data-path="src/pages/Dashboard.tsx">
+                <CardTitle data-id="f5mix2rdl" data-path="src/pages/Dashboard.tsx">Income vs Expenses Trend</CardTitle>
+                <CardDescription data-id="k3m9dnte8" data-path="src/pages/Dashboard.tsx">Your financial performance over the last 5 months</CardDescription>
               </CardHeader>
-              <CardContent data-id="ig4i90vz3" data-path="src/pages/Dashboard.tsx">
-                <ResponsiveContainer width="100%" height={300} data-id="eb7ca2cjl" data-path="src/pages/Dashboard.tsx">
-                  <LineChart data={dashboardData.monthlyTrend} data-id="xn1nttei3" data-path="src/pages/Dashboard.tsx">
-                    <CartesianGrid strokeDasharray="3 3" data-id="ibl6jnggc" data-path="src/pages/Dashboard.tsx" />
-                    <XAxis dataKey="month" data-id="75nlwb3rw" data-path="src/pages/Dashboard.tsx" />
-                    <YAxis data-id="xoupxpsyo" data-path="src/pages/Dashboard.tsx" />
-                    <Tooltip formatter={(value: number) => [`₹${value.toLocaleString()}`, '']} data-id="pu4phco69" data-path="src/pages/Dashboard.tsx" />
-                    <Line type="monotone" dataKey="income" stroke="#10b981" strokeWidth={3} name="Income" data-id="1ndz9w9om" data-path="src/pages/Dashboard.tsx" />
-                    <Line type="monotone" dataKey="expenses" stroke="#ef4444" strokeWidth={3} name="Expenses" data-id="k4bz0mjfx" data-path="src/pages/Dashboard.tsx" />
+              <CardContent data-id="7vlqq39vv" data-path="src/pages/Dashboard.tsx">
+                <ResponsiveContainer width="100%" height={300} data-id="rhai61clh" data-path="src/pages/Dashboard.tsx">
+                  <LineChart data={dashboardData.monthlyTrend} data-id="j3sr2lnm0" data-path="src/pages/Dashboard.tsx">
+                    <CartesianGrid strokeDasharray="3 3" data-id="uj5ezdga6" data-path="src/pages/Dashboard.tsx" />
+                    <XAxis dataKey="month" data-id="iwlj7vret" data-path="src/pages/Dashboard.tsx" />
+                    <YAxis data-id="zbxxyojz7" data-path="src/pages/Dashboard.tsx" />
+                    <Tooltip formatter={(value: number) => [`₹${value.toLocaleString()}`, '']} data-id="bl0s7jadh" data-path="src/pages/Dashboard.tsx" />
+                    <Line type="monotone" dataKey="income" stroke="#10b981" strokeWidth={3} name="Income" data-id="oho7kkkph" data-path="src/pages/Dashboard.tsx" />
+                    <Line type="monotone" dataKey="expenses" stroke="#ef4444" strokeWidth={3} name="Expenses" data-id="9x7ivzo93" data-path="src/pages/Dashboard.tsx" />
                   </LineChart>
                 </ResponsiveContainer>
               </CardContent>
             </Card>
 
             {/* Expense Distribution */}
-            <Card data-id="ujvdsc4rr" data-path="src/pages/Dashboard.tsx">
-              <CardHeader data-id="lwnajqp8i" data-path="src/pages/Dashboard.tsx">
-                <CardTitle data-id="otit9z6wj" data-path="src/pages/Dashboard.tsx">Expense Distribution</CardTitle>
-                <CardDescription data-id="striid8k5" data-path="src/pages/Dashboard.tsx">How you're spending your money this month</CardDescription>
+            <Card data-id="wsdusx3cg" data-path="src/pages/Dashboard.tsx">
+              <CardHeader data-id="hfpvpxq22" data-path="src/pages/Dashboard.tsx">
+                <CardTitle data-id="xvddv7miw" data-path="src/pages/Dashboard.tsx">Expense Distribution</CardTitle>
+                <CardDescription data-id="fv8tsvnde" data-path="src/pages/Dashboard.tsx">How you're spending your money this month</CardDescription>
               </CardHeader>
-              <CardContent data-id="gtic3k4fp" data-path="src/pages/Dashboard.tsx">
-                <div className="grid md:grid-cols-2 gap-4" data-id="58ksdf1o6" data-path="src/pages/Dashboard.tsx">
-                  <ResponsiveContainer width="100%" height={250} data-id="nxsaagzno" data-path="src/pages/Dashboard.tsx">
-                    <PieChart data-id="yubh61eiu" data-path="src/pages/Dashboard.tsx">
+              <CardContent data-id="h99qivt2b" data-path="src/pages/Dashboard.tsx">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4" data-id="hxu8qghtg" data-path="src/pages/Dashboard.tsx">
+                  <ResponsiveContainer width="100%" height={250} data-id="nnp2hf8mk" data-path="src/pages/Dashboard.tsx">
+                    <PieChart data-id="30qjhvjhc" data-path="src/pages/Dashboard.tsx">
                       <Pie
                         data={dashboardData.expenseByCategory}
                         cx="50%"
@@ -245,28 +239,28 @@ const Dashboard = () => {
                         labelLine={false}
                         outerRadius={80}
                         fill="#8884d8"
-                        dataKey="value" data-id="qphclm9ql" data-path="src/pages/Dashboard.tsx">
+                        dataKey="value" data-id="x1705bp5k" data-path="src/pages/Dashboard.tsx">
 
                         {dashboardData.expenseByCategory.map((entry, index) =>
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} data-id="53dxjq638" data-path="src/pages/Dashboard.tsx" />
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} data-id="vl57f5cvb" data-path="src/pages/Dashboard.tsx" />
                         )}
                       </Pie>
-                      <Tooltip formatter={(value: number) => [`₹${value.toLocaleString()}`, '']} data-id="2l041yf09" data-path="src/pages/Dashboard.tsx" />
+                      <Tooltip formatter={(value: number) => [`₹${value.toLocaleString()}`, '']} data-id="7gm53azot" data-path="src/pages/Dashboard.tsx" />
                     </PieChart>
                   </ResponsiveContainer>
-                  <div className="space-y-2" data-id="amee9h2ea" data-path="src/pages/Dashboard.tsx">
+                  <div className="space-y-2" data-id="dsegy4zx9" data-path="src/pages/Dashboard.tsx">
                     {dashboardData.expenseByCategory.map((category, index) =>
-                    <div key={category.name} className="flex items-center justify-between" data-id="kigadfnon" data-path="src/pages/Dashboard.tsx">
-                        <div className="flex items-center gap-2" data-id="st24x02cm" data-path="src/pages/Dashboard.tsx">
+                    <div key={category.name} className="flex items-center justify-between" data-id="84h6t4olw" data-path="src/pages/Dashboard.tsx">
+                        <div className="flex items-center gap-2" data-id="012g16mdl" data-path="src/pages/Dashboard.tsx">
                           <div
                           className="w-3 h-3 rounded-full"
-                          style={{ backgroundColor: COLORS[index % COLORS.length] }} data-id="lwu4tju1k" data-path="src/pages/Dashboard.tsx" />
+                          style={{ backgroundColor: COLORS[index % COLORS.length] }} data-id="cc71kv5bf" data-path="src/pages/Dashboard.tsx" />
 
-                          <span className="text-sm font-medium" data-id="50nqkdnm9" data-path="src/pages/Dashboard.tsx">{category.name}</span>
+                          <span className="text-sm font-medium" data-id="52gst1tgq" data-path="src/pages/Dashboard.tsx">{category.name}</span>
                         </div>
-                        <div className="text-right" data-id="agidjmk0p" data-path="src/pages/Dashboard.tsx">
-                          <div className="text-sm font-medium" data-id="ghe1jkt2i" data-path="src/pages/Dashboard.tsx">₹{category.value.toLocaleString()}</div>
-                          <div className="text-xs text-gray-500" data-id="d9dduiupq" data-path="src/pages/Dashboard.tsx">{category.percentage}%</div>
+                        <div className="text-right" data-id="ddgv0e4gd" data-path="src/pages/Dashboard.tsx">
+                          <div className="text-sm font-medium" data-id="5zvmtikli" data-path="src/pages/Dashboard.tsx">₹{category.value.toLocaleString()}</div>
+                          <div className="text-xs text-gray-500" data-id="0oh59l44q" data-path="src/pages/Dashboard.tsx">{category.percentage}%</div>
                         </div>
                       </div>
                     )}
@@ -276,37 +270,37 @@ const Dashboard = () => {
             </Card>
 
             {/* Recent Transactions */}
-            <Card data-id="yrdxrdamj" data-path="src/pages/Dashboard.tsx">
-              <CardHeader className="flex flex-row items-center justify-between" data-id="xf2sfcj07" data-path="src/pages/Dashboard.tsx">
-                <div data-id="jule277pd" data-path="src/pages/Dashboard.tsx">
-                  <CardTitle data-id="alysyrznk" data-path="src/pages/Dashboard.tsx">Recent Transactions</CardTitle>
-                  <CardDescription data-id="qh9x4ig27" data-path="src/pages/Dashboard.tsx">Your latest financial activities</CardDescription>
+            <Card data-id="cfvsrxnxm" data-path="src/pages/Dashboard.tsx">
+              <CardHeader className="flex flex-row items-center justify-between" data-id="bq5poz2n2" data-path="src/pages/Dashboard.tsx">
+                <div data-id="w8tssu9kc" data-path="src/pages/Dashboard.tsx">
+                  <CardTitle data-id="ycyrcy1y2" data-path="src/pages/Dashboard.tsx">Recent Transactions</CardTitle>
+                  <CardDescription data-id="k1p9989ez" data-path="src/pages/Dashboard.tsx">Your latest financial activities</CardDescription>
                 </div>
-                <Button variant="outline" size="sm" onClick={() => navigate('/expenses')} data-id="uwbly4tky" data-path="src/pages/Dashboard.tsx">
+                <Button variant="outline" size="sm" onClick={() => navigate('/expenses')} data-id="4t8mwd8k4" data-path="src/pages/Dashboard.tsx">
                   View All
                 </Button>
               </CardHeader>
-              <CardContent data-id="zdnh97iv8" data-path="src/pages/Dashboard.tsx">
-                <div className="space-y-3" data-id="h1xtvsc3q" data-path="src/pages/Dashboard.tsx">
+              <CardContent data-id="moautkz6o" data-path="src/pages/Dashboard.tsx">
+                <div className="space-y-3" data-id="h04urs55b" data-path="src/pages/Dashboard.tsx">
                   {dashboardData.recentTransactions.slice(0, 5).map((transaction) =>
-                  <div key={transaction.id} className="flex items-center justify-between p-3 rounded-lg bg-gray-50" data-id="xj66ubqfn" data-path="src/pages/Dashboard.tsx">
-                      <div className="flex items-center gap-3" data-id="xgkpnomyq" data-path="src/pages/Dashboard.tsx">
+                  <div key={transaction.id} className="flex items-center justify-between p-3 rounded-lg bg-gray-50" data-id="589k6v61e" data-path="src/pages/Dashboard.tsx">
+                      <div className="flex items-center gap-3" data-id="g7tb0i21i" data-path="src/pages/Dashboard.tsx">
                         <div className={`p-2 rounded-full ${
                       transaction.type === 'income' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`
-                      } data-id="bp7vrqw85" data-path="src/pages/Dashboard.tsx">
+                      } data-id="3eqqvm096" data-path="src/pages/Dashboard.tsx">
                           {transaction.type === 'income' ?
-                        <TrendingUp className="h-4 w-4" data-id="szn0el73y" data-path="src/pages/Dashboard.tsx" /> :
-                        <TrendingDown className="h-4 w-4" data-id="qg1tnybdg" data-path="src/pages/Dashboard.tsx" />
+                        <TrendingUp className="h-4 w-4" data-id="2yequ9j5w" data-path="src/pages/Dashboard.tsx" /> :
+                        <TrendingDown className="h-4 w-4" data-id="7fwiui01o" data-path="src/pages/Dashboard.tsx" />
                         }
                         </div>
-                        <div data-id="9enenhxx1" data-path="src/pages/Dashboard.tsx">
-                          <div className="font-medium" data-id="dptncz5p5" data-path="src/pages/Dashboard.tsx">{transaction.title}</div>
-                          <div className="text-sm text-gray-500" data-id="h998z8w8l" data-path="src/pages/Dashboard.tsx">{transaction.category} • {transaction.date}</div>
+                        <div data-id="6azilpk6k" data-path="src/pages/Dashboard.tsx">
+                          <div className="font-medium" data-id="4d1ork4vb" data-path="src/pages/Dashboard.tsx">{transaction.title}</div>
+                          <div className="text-sm text-gray-500" data-id="fl82efu4v" data-path="src/pages/Dashboard.tsx">{transaction.category} • {transaction.date}</div>
                         </div>
                       </div>
                       <div className={`font-semibold ${
                     transaction.type === 'income' ? 'text-green-600' : 'text-red-600'}`
-                    } data-id="782jzg5c4" data-path="src/pages/Dashboard.tsx">
+                    } data-id="tvxqepq0k" data-path="src/pages/Dashboard.tsx">
                         {transaction.type === 'income' ? '+' : ''}₹{Math.abs(transaction.amount).toLocaleString()}
                       </div>
                     </div>
@@ -317,34 +311,34 @@ const Dashboard = () => {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6" data-id="texusw8j3" data-path="src/pages/Dashboard.tsx">
+          <div className="space-y-4 md:space-y-6" data-id="p2o228iq7" data-path="src/pages/Dashboard.tsx">
             {/* Quick Actions */}
-            <QuickActions data-id="ok8arjbsc" data-path="src/pages/Dashboard.tsx" />
+            <QuickActions data-id="wcqmmtbwv" data-path="src/pages/Dashboard.tsx" />
 
             {/* Budget Overview */}
-            <Card data-id="geedm1g9b" data-path="src/pages/Dashboard.tsx">
-              <CardHeader data-id="blh758ksi" data-path="src/pages/Dashboard.tsx">
-                <CardTitle className="flex items-center gap-2" data-id="8fsvaotof" data-path="src/pages/Dashboard.tsx">
-                  <Target className="h-5 w-5" data-id="1p7lcmdqa" data-path="src/pages/Dashboard.tsx" />
+            <Card data-id="kiz3xofxi" data-path="src/pages/Dashboard.tsx">
+              <CardHeader data-id="hly49n5kk" data-path="src/pages/Dashboard.tsx">
+                <CardTitle className="flex items-center gap-2" data-id="dg3jcyz7j" data-path="src/pages/Dashboard.tsx">
+                  <Target className="h-5 w-5" data-id="hsvo9ii2i" data-path="src/pages/Dashboard.tsx" />
                   Budget Overview
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4" data-id="zqz1d6vwz" data-path="src/pages/Dashboard.tsx">
+              <CardContent className="space-y-4" data-id="017p004el" data-path="src/pages/Dashboard.tsx">
                 {dashboardData.budgetCategories.map((budget) =>
-                <div key={budget.category} className="space-y-2" data-id="dtiq5h8c5" data-path="src/pages/Dashboard.tsx">
-                    <div className="flex justify-between text-sm" data-id="jzy2s3q79" data-path="src/pages/Dashboard.tsx">
-                      <span className="font-medium" data-id="dz8spv1i5" data-path="src/pages/Dashboard.tsx">{budget.category}</span>
-                      <span className="text-gray-500" data-id="xi3ozw82d" data-path="src/pages/Dashboard.tsx">
+                <div key={budget.category} className="space-y-2" data-id="ihj7mllrt" data-path="src/pages/Dashboard.tsx">
+                    <div className="flex justify-between text-sm" data-id="kmf7mtucu" data-path="src/pages/Dashboard.tsx">
+                      <span className="font-medium" data-id="50u2yznb3" data-path="src/pages/Dashboard.tsx">{budget.category}</span>
+                      <span className="text-gray-500" data-id="tkde3lvd4" data-path="src/pages/Dashboard.tsx">
                         ₹{budget.spent.toLocaleString()} / ₹{budget.allocated.toLocaleString()}
                       </span>
                     </div>
                     <Progress
                     value={budget.percentage}
-                    className={`h-2 ${budget.percentage > 90 ? 'text-red-500' : budget.percentage > 75 ? 'text-yellow-500' : 'text-green-500'}`} data-id="ryiei6h4g" data-path="src/pages/Dashboard.tsx" />
+                    className={`h-2 ${budget.percentage > 90 ? 'text-red-500' : budget.percentage > 75 ? 'text-yellow-500' : 'text-green-500'}`} data-id="8v95mhe6i" data-path="src/pages/Dashboard.tsx" />
 
-                    <div className="flex justify-between text-xs text-gray-500" data-id="hose2ttc4" data-path="src/pages/Dashboard.tsx">
-                      <span data-id="3b0yip7w6" data-path="src/pages/Dashboard.tsx">{budget.percentage}% used</span>
-                      <span data-id="zit1dvz14" data-path="src/pages/Dashboard.tsx">₹{(budget.allocated - budget.spent).toLocaleString()} left</span>
+                    <div className="flex justify-between text-xs text-gray-500" data-id="tc7mcc4uz" data-path="src/pages/Dashboard.tsx">
+                      <span data-id="7uxdqcfcb" data-path="src/pages/Dashboard.tsx">{budget.percentage}% used</span>
+                      <span data-id="lcj8ocv8g" data-path="src/pages/Dashboard.tsx">₹{(budget.allocated - budget.spent).toLocaleString()} left</span>
                     </div>
                   </div>
                 )}
@@ -352,7 +346,7 @@ const Dashboard = () => {
                   variant="outline"
                   size="sm"
                   className="w-full mt-4"
-                  onClick={() => navigate('/budget')} data-id="eo3amn4l1" data-path="src/pages/Dashboard.tsx">
+                  onClick={() => navigate('/budget')} data-id="282n6lbkb" data-path="src/pages/Dashboard.tsx">
 
                   Manage Budget
                 </Button>
@@ -360,23 +354,23 @@ const Dashboard = () => {
             </Card>
 
             {/* Upcoming Bills */}
-            <Card data-id="4gan7u39u" data-path="src/pages/Dashboard.tsx">
-              <CardHeader data-id="8i2p99uso" data-path="src/pages/Dashboard.tsx">
-                <CardTitle className="flex items-center gap-2" data-id="7zxupmlqo" data-path="src/pages/Dashboard.tsx">
-                  <Bell className="h-5 w-5" data-id="zalua3qqe" data-path="src/pages/Dashboard.tsx" />
+            <Card data-id="28anaepx4" data-path="src/pages/Dashboard.tsx">
+              <CardHeader data-id="zljv2tkkw" data-path="src/pages/Dashboard.tsx">
+                <CardTitle className="flex items-center gap-2" data-id="f2tndphqo" data-path="src/pages/Dashboard.tsx">
+                  <Bell className="h-5 w-5" data-id="gyava5i0f" data-path="src/pages/Dashboard.tsx" />
                   Upcoming Bills
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3" data-id="pjptgxg0n" data-path="src/pages/Dashboard.tsx">
+              <CardContent className="space-y-3" data-id="ge06wp1bf" data-path="src/pages/Dashboard.tsx">
                 {dashboardData.upcomingBills.map((bill) =>
-                <div key={bill.id} className="flex items-center justify-between p-3 rounded-lg bg-orange-50 border border-orange-200" data-id="jci8giet6" data-path="src/pages/Dashboard.tsx">
-                    <div data-id="g4fw3xh1p" data-path="src/pages/Dashboard.tsx">
-                      <div className="font-medium" data-id="5lnnqnvhz" data-path="src/pages/Dashboard.tsx">{bill.title}</div>
-                      <div className="text-sm text-gray-500" data-id="hkuxp79t4" data-path="src/pages/Dashboard.tsx">Due: {bill.dueDate}</div>
+                <div key={bill.id} className="flex items-center justify-between p-3 rounded-lg bg-orange-50 border border-orange-200" data-id="kuang4706" data-path="src/pages/Dashboard.tsx">
+                    <div data-id="dzs43d30v" data-path="src/pages/Dashboard.tsx">
+                      <div className="font-medium" data-id="ngfbzgjw9" data-path="src/pages/Dashboard.tsx">{bill.title}</div>
+                      <div className="text-sm text-gray-500" data-id="fko7onvef" data-path="src/pages/Dashboard.tsx">Due: {bill.dueDate}</div>
                     </div>
-                    <div className="text-right" data-id="84eh38evk" data-path="src/pages/Dashboard.tsx">
-                      <div className="font-semibold text-orange-600" data-id="etz2k70n6" data-path="src/pages/Dashboard.tsx">₹{bill.amount.toLocaleString()}</div>
-                      <Badge variant="outline" className="text-xs" data-id="cwhwdlj3h" data-path="src/pages/Dashboard.tsx">
+                    <div className="text-right" data-id="8fslgeai4" data-path="src/pages/Dashboard.tsx">
+                      <div className="font-semibold text-orange-600" data-id="hebp5dl21" data-path="src/pages/Dashboard.tsx">₹{bill.amount.toLocaleString()}</div>
+                      <Badge variant="outline" className="text-xs" data-id="dpx8m0jka" data-path="src/pages/Dashboard.tsx">
                         {bill.category}
                       </Badge>
                     </div>
@@ -386,7 +380,7 @@ const Dashboard = () => {
                   variant="outline"
                   size="sm"
                   className="w-full"
-                  onClick={() => navigate('/bills')} data-id="46odhhx0a" data-path="src/pages/Dashboard.tsx">
+                  onClick={() => navigate('/bills')} data-id="95wghx0kt" data-path="src/pages/Dashboard.tsx">
 
                   Manage Bills
                 </Button>
@@ -394,26 +388,26 @@ const Dashboard = () => {
             </Card>
 
             {/* Savings Goals */}
-            <Card data-id="8uipvtuv2" data-path="src/pages/Dashboard.tsx">
-              <CardHeader data-id="fnej03fk9" data-path="src/pages/Dashboard.tsx">
-                <CardTitle className="flex items-center gap-2" data-id="gpvlm1u1f" data-path="src/pages/Dashboard.tsx">
-                  <PiggyBank className="h-5 w-5" data-id="gdg8awfvg" data-path="src/pages/Dashboard.tsx" />
+            <Card data-id="po5wle1ty" data-path="src/pages/Dashboard.tsx">
+              <CardHeader data-id="r270uohad" data-path="src/pages/Dashboard.tsx">
+                <CardTitle className="flex items-center gap-2" data-id="wfnwpxt5v" data-path="src/pages/Dashboard.tsx">
+                  <PiggyBank className="h-5 w-5" data-id="skuwap74e" data-path="src/pages/Dashboard.tsx" />
                   Savings Goals
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4" data-id="khv8vlem5" data-path="src/pages/Dashboard.tsx">
+              <CardContent className="space-y-4" data-id="iqxzpt9io" data-path="src/pages/Dashboard.tsx">
                 {dashboardData.savingsGoals.map((goal) => {
                   const progress = goal.saved / goal.target * 100;
                   return (
-                    <div key={goal.id} className="space-y-2" data-id="dexq2gka1" data-path="src/pages/Dashboard.tsx">
-                      <div className="flex justify-between text-sm" data-id="bbqqbytyv" data-path="src/pages/Dashboard.tsx">
-                        <span className="font-medium" data-id="a2v32bbxd" data-path="src/pages/Dashboard.tsx">{goal.title}</span>
-                        <span className="text-gray-500" data-id="qso2te1ds" data-path="src/pages/Dashboard.tsx">{Math.round(progress)}%</span>
+                    <div key={goal.id} className="space-y-2" data-id="132o68yzm" data-path="src/pages/Dashboard.tsx">
+                      <div className="flex justify-between text-sm" data-id="pj25uxxta" data-path="src/pages/Dashboard.tsx">
+                        <span className="font-medium" data-id="fka5cokhz" data-path="src/pages/Dashboard.tsx">{goal.title}</span>
+                        <span className="text-gray-500" data-id="8hjblby3r" data-path="src/pages/Dashboard.tsx">{Math.round(progress)}%</span>
                       </div>
-                      <Progress value={progress} className="h-2" data-id="mfo32mkms" data-path="src/pages/Dashboard.tsx" />
-                      <div className="flex justify-between text-xs text-gray-500" data-id="m62di3zay" data-path="src/pages/Dashboard.tsx">
-                        <span data-id="f51s732ps" data-path="src/pages/Dashboard.tsx">₹{goal.saved.toLocaleString()} saved</span>
-                        <span data-id="fymzo69wf" data-path="src/pages/Dashboard.tsx">Goal: ₹{goal.target.toLocaleString()}</span>
+                      <Progress value={progress} className="h-2" data-id="ruqafoljl" data-path="src/pages/Dashboard.tsx" />
+                      <div className="flex justify-between text-xs text-gray-500" data-id="s4btli7rq" data-path="src/pages/Dashboard.tsx">
+                        <span data-id="8i1isr957" data-path="src/pages/Dashboard.tsx">₹{goal.saved.toLocaleString()} saved</span>
+                        <span data-id="6jvq5si6r" data-path="src/pages/Dashboard.tsx">Goal: ₹{goal.target.toLocaleString()}</span>
                       </div>
                     </div>);
 
@@ -422,7 +416,7 @@ const Dashboard = () => {
                   variant="outline"
                   size="sm"
                   className="w-full"
-                  onClick={() => navigate('/goals')} data-id="d6ib9bbor" data-path="src/pages/Dashboard.tsx">
+                  onClick={() => navigate('/goals')} data-id="6x1o9l6yj" data-path="src/pages/Dashboard.tsx">
 
                   Manage Goals
                 </Button>

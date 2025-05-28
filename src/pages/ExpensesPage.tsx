@@ -32,81 +32,36 @@ import { format } from 'date-fns';
 import DashboardLayout from '@/components/DashboardLayout';
 import { toast } from '@/hooks/use-toast';
 
+const EXPENSES_TABLE_ID = 10239;
+
+declare global {
+  interface Window {
+    ezsite: {
+      apis: {
+        tablePage: (tableId: number, params: any) => Promise<{data: any;error: string;}>;
+        tableCreate: (tableId: number, data: any) => Promise<{error: string;}>;
+        tableUpdate: (tableId: number, data: any) => Promise<{error: string;}>;
+        tableDelete: (tableId: number, params: any) => Promise<{error: string;}>;
+        getUserInfo: () => Promise<{data: any;error: string;}>;
+      };
+    };
+  }
+}
+
+interface Expense {
+  ID: number;
+  title: string;
+  amount: number;
+  category: string;
+  expense_date: string;
+  notes: string;
+  user_id: number;
+}
+
 const ExpensesPage = () => {
-  const [expenses, setExpenses] = useState([
-  {
-    id: 1,
-    title: 'Lunch at Canteen',
-    amount: 150,
-    category: 'Food',
-    date: '2024-01-15',
-    notes: 'Had biryani with friends',
-    icon: '🍽️'
-  },
-  {
-    id: 2,
-    title: 'Bus Fare',
-    amount: 50,
-    category: 'Transport',
-    date: '2024-01-15',
-    notes: 'Daily commute',
-    icon: '🚌'
-  },
-  {
-    id: 3,
-    title: 'Coffee with Friends',
-    amount: 200,
-    category: 'Entertainment',
-    date: '2024-01-14',
-    notes: 'Starbucks coffee date',
-    icon: '☕'
-  },
-  {
-    id: 4,
-    title: 'Course Books',
-    amount: 1500,
-    category: 'Study Materials',
-    date: '2024-01-14',
-    notes: 'Semester textbooks',
-    icon: '📚'
-  },
-  {
-    id: 5,
-    title: 'Movie Tickets',
-    amount: 400,
-    category: 'Entertainment',
-    date: '2024-01-13',
-    notes: 'Weekend movie with friends',
-    icon: '🎬'
-  },
-  {
-    id: 6,
-    title: 'Groceries',
-    amount: 800,
-    category: 'Food',
-    date: '2024-01-12',
-    notes: 'Monthly grocery shopping',
-    icon: '🛒'
-  },
-  {
-    id: 7,
-    title: 'Internet Recharge',
-    amount: 399,
-    category: 'Utilities',
-    date: '2024-01-11',
-    notes: 'Monthly internet plan',
-    icon: '📱'
-  },
-  {
-    id: 8,
-    title: 'Haircut',
-    amount: 200,
-    category: 'Personal Care',
-    date: '2024-01-10',
-    notes: 'Monthly haircut',
-    icon: '✂️'
-  }]
-  );
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<any>(null);
 
   const [filteredExpenses, setFilteredExpenses] = useState(expenses);
   const [searchTerm, setSearchTerm] = useState('');
@@ -116,14 +71,14 @@ const ExpensesPage = () => {
   const [editingExpense, setEditingExpense] = useState(null);
 
   const categories = [
-  { name: 'Food', icon: <Utensils className="h-4 w-4" data-id="xyjolr0tk" data-path="src/pages/ExpensesPage.tsx" />, color: 'bg-orange-100 text-orange-800' },
-  { name: 'Transport', icon: <Car className="h-4 w-4" data-id="ltxgnqczc" data-path="src/pages/ExpensesPage.tsx" />, color: 'bg-blue-100 text-blue-800' },
-  { name: 'Entertainment', icon: <Coffee className="h-4 w-4" data-id="f27bsd26u" data-path="src/pages/ExpensesPage.tsx" />, color: 'bg-purple-100 text-purple-800' },
-  { name: 'Study Materials', icon: <GraduationCap className="h-4 w-4" data-id="e4bf3xkmd" data-path="src/pages/ExpensesPage.tsx" />, color: 'bg-green-100 text-green-800' },
-  { name: 'Shopping', icon: <ShoppingBag className="h-4 w-4" data-id="cbhrjb8vo" data-path="src/pages/ExpensesPage.tsx" />, color: 'bg-pink-100 text-pink-800' },
-  { name: 'Utilities', icon: <Home className="h-4 w-4" data-id="i1rtxk2hp" data-path="src/pages/ExpensesPage.tsx" />, color: 'bg-yellow-100 text-yellow-800' },
-  { name: 'Personal Care', icon: <Smartphone className="h-4 w-4" data-id="2rmbrrdt5" data-path="src/pages/ExpensesPage.tsx" />, color: 'bg-teal-100 text-teal-800' },
-  { name: 'Others', icon: <Receipt className="h-4 w-4" data-id="sh20f8jfc" data-path="src/pages/ExpensesPage.tsx" />, color: 'bg-gray-100 text-gray-800' }];
+  { name: 'Food', icon: <Utensils className="h-4 w-4" data-id="ra9jz821u" data-path="src/pages/ExpensesPage.tsx" />, color: 'bg-orange-100 text-orange-800' },
+  { name: 'Transport', icon: <Car className="h-4 w-4" data-id="3aup3wx66" data-path="src/pages/ExpensesPage.tsx" />, color: 'bg-blue-100 text-blue-800' },
+  { name: 'Entertainment', icon: <Coffee className="h-4 w-4" data-id="p6zk1saoe" data-path="src/pages/ExpensesPage.tsx" />, color: 'bg-purple-100 text-purple-800' },
+  { name: 'Study Materials', icon: <GraduationCap className="h-4 w-4" data-id="q9hsvojkl" data-path="src/pages/ExpensesPage.tsx" />, color: 'bg-green-100 text-green-800' },
+  { name: 'Shopping', icon: <ShoppingBag className="h-4 w-4" data-id="3nacbh8zh" data-path="src/pages/ExpensesPage.tsx" />, color: 'bg-pink-100 text-pink-800' },
+  { name: 'Utilities', icon: <Home className="h-4 w-4" data-id="j27dvgy1x" data-path="src/pages/ExpensesPage.tsx" />, color: 'bg-yellow-100 text-yellow-800' },
+  { name: 'Personal Care', icon: <Smartphone className="h-4 w-4" data-id="r5cnwb0gf" data-path="src/pages/ExpensesPage.tsx" />, color: 'bg-teal-100 text-teal-800' },
+  { name: 'Others', icon: <Receipt className="h-4 w-4" data-id="50tfl2hmm" data-path="src/pages/ExpensesPage.tsx" />, color: 'bg-gray-100 text-gray-800' }];
 
 
   const [newExpense, setNewExpense] = useState({
@@ -133,6 +88,60 @@ const ExpensesPage = () => {
     date: new Date(),
     notes: ''
   });
+
+  // Load user and expenses on component mount
+  useEffect(() => {
+    loadUserAndExpenses();
+  }, []);
+
+  const loadUserAndExpenses = async () => {
+    try {
+      const { data: userData, error: userError } = await window.ezsite.apis.getUserInfo();
+      if (userError) throw userError;
+      setUser(userData);
+
+      if (userData?.ID) {
+        await loadExpenses(userData.ID);
+      }
+    } catch (error) {
+      console.error('Error loading user data:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load user data. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadExpenses = async (userId: number) => {
+    try {
+      const { data, error } = await window.ezsite.apis.tablePage(EXPENSES_TABLE_ID, {
+        PageNo: 1,
+        PageSize: 1000,
+        OrderByField: "expense_date",
+        IsAsc: false,
+        Filters: [
+        {
+          name: "user_id",
+          op: "Equal",
+          value: userId
+        }]
+
+      });
+
+      if (error) throw error;
+      setExpenses(data?.List || []);
+    } catch (error) {
+      console.error('Error loading expenses:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load expenses. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
 
   // Filter expenses based on search term, category, and month
   useEffect(() => {
@@ -151,7 +160,7 @@ const ExpensesPage = () => {
 
     if (selectedMonth && selectedMonth !== 'All') {
       filtered = filtered.filter((expense) => {
-        const expenseMonth = new Date(expense.date).getMonth();
+        const expenseMonth = new Date(expense.expense_date).getMonth();
         const currentMonth = new Date().getMonth();
 
         if (selectedMonth === 'This Month') {
@@ -167,7 +176,7 @@ const ExpensesPage = () => {
     setFilteredExpenses(filtered);
   }, [searchTerm, selectedCategory, selectedMonth, expenses]);
 
-  const handleAddExpense = () => {
+  const handleAddExpense = async () => {
     if (!newExpense.title || !newExpense.amount || !newExpense.category) {
       toast({
         title: "Missing Information",
@@ -177,36 +186,73 @@ const ExpensesPage = () => {
       return;
     }
 
-    const expense = {
-      id: Date.now(),
-      ...newExpense,
-      amount: parseFloat(newExpense.amount),
-      date: format(newExpense.date, 'yyyy-MM-dd'),
-      icon: categories.find((cat) => cat.name === newExpense.category)?.name === 'Food' ? '🍽️' : '💰'
-    };
+    if (!user?.ID) {
+      toast({
+        title: "Error",
+        description: "User not found. Please refresh and try again.",
+        variant: "destructive"
+      });
+      return;
+    }
 
-    setExpenses((prev) => [expense, ...prev]);
-    setNewExpense({
-      title: '',
-      amount: '',
-      category: '',
-      date: new Date(),
-      notes: ''
-    });
-    setIsAddDialogOpen(false);
+    try {
+      const expenseData = {
+        user_id: user.ID,
+        title: newExpense.title,
+        amount: parseFloat(newExpense.amount),
+        category: newExpense.category,
+        expense_date: format(newExpense.date, 'yyyy-MM-dd'),
+        notes: newExpense.notes
+      };
 
-    toast({
-      title: "Expense Added",
-      description: `₹${expense.amount} expense for ${expense.title} has been recorded.`
-    });
+      const { error } = await window.ezsite.apis.tableCreate(EXPENSES_TABLE_ID, expenseData);
+      if (error) throw error;
+
+      await loadExpenses(user.ID);
+      setNewExpense({
+        title: '',
+        amount: '',
+        category: '',
+        date: new Date(),
+        notes: ''
+      });
+      setIsAddDialogOpen(false);
+
+      toast({
+        title: "Expense Added",
+        description: `₹${expenseData.amount} expense for ${expenseData.title} has been recorded.`
+      });
+    } catch (error) {
+      console.error('Error adding expense:', error);
+      toast({
+        title: "Error",
+        description: "Failed to add expense. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
-  const handleDeleteExpense = (id: number) => {
-    setExpenses((prev) => prev.filter((expense) => expense.id !== id));
-    toast({
-      title: "Expense Deleted",
-      description: "The expense has been removed from your records."
-    });
+  const handleDeleteExpense = async (id: number) => {
+    try {
+      const { error } = await window.ezsite.apis.tableDelete(EXPENSES_TABLE_ID, { ID: id });
+      if (error) throw error;
+
+      if (user?.ID) {
+        await loadExpenses(user.ID);
+      }
+
+      toast({
+        title: "Expense Deleted",
+        description: "The expense has been removed from your records."
+      });
+    } catch (error) {
+      console.error('Error deleting expense:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete expense. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const getCategoryStyle = (categoryName: string) => {
@@ -216,93 +262,107 @@ const ExpensesPage = () => {
 
   const getCategoryIcon = (categoryName: string) => {
     const category = categories.find((cat) => cat.name === categoryName);
-    return category ? category.icon : <Receipt className="h-4 w-4" data-id="nlb2yetl0" data-path="src/pages/ExpensesPage.tsx" />;
+    return category ? category.icon : <Receipt className="h-4 w-4" data-id="5497abzwo" data-path="src/pages/ExpensesPage.tsx" />;
   };
 
   const totalExpenses = filteredExpenses.reduce((sum, expense) => sum + expense.amount, 0);
   const avgExpensePerDay = totalExpenses / Math.max(filteredExpenses.length, 1);
 
-  const ExpenseCard = ({ expense }: {expense: typeof expenses[0];}) =>
-  <Card className="hover:shadow-md transition-all duration-200" data-id="b5cvawnl6" data-path="src/pages/ExpensesPage.tsx">
-      <CardContent className="p-4" data-id="j4vx8o2ry" data-path="src/pages/ExpensesPage.tsx">
-        <div className="flex items-center justify-between" data-id="daqbw8gd6" data-path="src/pages/ExpensesPage.tsx">
-          <div className="flex items-center space-x-3" data-id="0thx2zagl" data-path="src/pages/ExpensesPage.tsx">
-            <div className="text-2xl" data-id="tema4ddym" data-path="src/pages/ExpensesPage.tsx">{expense.icon}</div>
-            <div data-id="6xx5w9lbr" data-path="src/pages/ExpensesPage.tsx">
-              <h3 className="font-semibold text-gray-900" data-id="n14clohda" data-path="src/pages/ExpensesPage.tsx">{expense.title}</h3>
-              <div className="flex items-center gap-2 mt-1" data-id="fnt3qe1nj" data-path="src/pages/ExpensesPage.tsx">
-                <Badge variant="secondary" className={getCategoryStyle(expense.category)} data-id="d8hr7uq1t" data-path="src/pages/ExpensesPage.tsx">
-                  {getCategoryIcon(expense.category)}
-                  <span className="ml-1" data-id="wbzpt18he" data-path="src/pages/ExpensesPage.tsx">{expense.category}</span>
-                </Badge>
-                <span className="text-sm text-gray-500" data-id="d9k0mx3hp" data-path="src/pages/ExpensesPage.tsx">{expense.date}</span>
+  const ExpenseCard = ({ expense }: {expense: Expense;}) => {
+    const getIcon = (category: string) => {
+      switch (category) {
+        case 'Food':return '🍽️';
+        case 'Transport':return '🚌';
+        case 'Entertainment':return '🎬';
+        case 'Study Materials':return '📚';
+        case 'Shopping':return '🛒';
+        case 'Utilities':return '📱';
+        case 'Personal Care':return '✂️';
+        default:return '💰';
+      }
+    };
+
+    return (
+      <Card className="hover:shadow-md transition-all duration-200" data-id="x1739nphr" data-path="src/pages/ExpensesPage.tsx">
+        <CardContent className="p-4" data-id="514qr1105" data-path="src/pages/ExpensesPage.tsx">
+          <div className="flex items-center justify-between" data-id="hmy92fcz6" data-path="src/pages/ExpensesPage.tsx">
+            <div className="flex items-center space-x-3" data-id="nrp9zwxt0" data-path="src/pages/ExpensesPage.tsx">
+              <div className="text-2xl" data-id="kj082wnkb" data-path="src/pages/ExpensesPage.tsx">{getIcon(expense.category)}</div>
+              <div data-id="mxfvw51pg" data-path="src/pages/ExpensesPage.tsx">
+                <h3 className="font-semibold text-gray-900" data-id="s6ibxkqmd" data-path="src/pages/ExpensesPage.tsx">{expense.title}</h3>
+                <div className="flex items-center gap-2 mt-1" data-id="bqrutp38f" data-path="src/pages/ExpensesPage.tsx">
+                  <Badge variant="secondary" className={getCategoryStyle(expense.category)} data-id="aabbnwhdm" data-path="src/pages/ExpensesPage.tsx">
+                    {getCategoryIcon(expense.category)}
+                    <span className="ml-1" data-id="v123sgvhj" data-path="src/pages/ExpensesPage.tsx">{expense.category}</span>
+                  </Badge>
+                  <span className="text-sm text-gray-500" data-id="16bzn5495" data-path="src/pages/ExpensesPage.tsx">{expense.expense_date}</span>
+                </div>
+                {expense.notes &&
+                <p className="text-sm text-gray-600 mt-1" data-id="khlgfw7ws" data-path="src/pages/ExpensesPage.tsx">{expense.notes}</p>
+                }
               </div>
-              {expense.notes &&
-            <p className="text-sm text-gray-600 mt-1" data-id="zxvl5f8g5" data-path="src/pages/ExpensesPage.tsx">{expense.notes}</p>
-            }
+            </div>
+            <div className="flex items-center space-x-2" data-id="yi7p9ieca" data-path="src/pages/ExpensesPage.tsx">
+              <span className="text-lg font-bold text-red-600" data-id="nu6ckx889" data-path="src/pages/ExpensesPage.tsx">
+                -₹{expense.amount.toLocaleString()}
+              </span>
+              <div className="flex space-x-1" data-id="6n2p5iix8" data-path="src/pages/ExpensesPage.tsx">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setEditingExpense(expense)} data-id="sw19phyot" data-path="src/pages/ExpensesPage.tsx">
+                  <Edit className="h-4 w-4" data-id="fphhap7sw" data-path="src/pages/ExpensesPage.tsx" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleDeleteExpense(expense.ID)}
+                  className="text-red-600 hover:text-red-700" data-id="sp88sbnx0" data-path="src/pages/ExpensesPage.tsx">
+                  <Trash2 className="h-4 w-4" data-id="1w9ebd4k1" data-path="src/pages/ExpensesPage.tsx" />
+                </Button>
+              </div>
             </div>
           </div>
-          <div className="flex items-center space-x-2" data-id="l2wuyqscb" data-path="src/pages/ExpensesPage.tsx">
-            <span className="text-lg font-bold text-red-600" data-id="l4vi6u1qx" data-path="src/pages/ExpensesPage.tsx">
-              -₹{expense.amount.toLocaleString()}
-            </span>
-            <div className="flex space-x-1" data-id="yumyqb6dh" data-path="src/pages/ExpensesPage.tsx">
-              <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setEditingExpense(expense)} data-id="zzg2iiw7q" data-path="src/pages/ExpensesPage.tsx">
+        </CardContent>
+      </Card>);
 
-                <Edit className="h-4 w-4" data-id="6xymtkjm3" data-path="src/pages/ExpensesPage.tsx" />
-              </Button>
-              <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => handleDeleteExpense(expense.id)}
-              className="text-red-600 hover:text-red-700" data-id="i6oamahlw" data-path="src/pages/ExpensesPage.tsx">
-
-                <Trash2 className="h-4 w-4" data-id="wyjz3ak4e" data-path="src/pages/ExpensesPage.tsx" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </CardContent>
-    </Card>;
+  };
 
 
   const AddExpenseForm = () =>
-  <div className="space-y-4" data-id="jkgki60pf" data-path="src/pages/ExpensesPage.tsx">
-      <div className="space-y-2" data-id="29waedy9r" data-path="src/pages/ExpensesPage.tsx">
-        <Label htmlFor="title" data-id="pla5wfz72" data-path="src/pages/ExpensesPage.tsx">Expense Title</Label>
+  <div className="space-y-4" data-id="pr338n56c" data-path="src/pages/ExpensesPage.tsx">
+      <div className="space-y-2" data-id="2u3vznna1" data-path="src/pages/ExpensesPage.tsx">
+        <Label htmlFor="title" data-id="iru6q087b" data-path="src/pages/ExpensesPage.tsx">Expense Title</Label>
         <Input
         id="title"
         placeholder="e.g., Lunch at Canteen"
         value={newExpense.title}
-        onChange={(e) => setNewExpense((prev) => ({ ...prev, title: e.target.value }))} data-id="9nhzxcyfi" data-path="src/pages/ExpensesPage.tsx" />
+        onChange={(e) => setNewExpense((prev) => ({ ...prev, title: e.target.value }))} data-id="784mkawuq" data-path="src/pages/ExpensesPage.tsx" />
 
       </div>
 
-      <div className="grid grid-cols-2 gap-4" data-id="jw6fk06la" data-path="src/pages/ExpensesPage.tsx">
-        <div className="space-y-2" data-id="f2nucoeef" data-path="src/pages/ExpensesPage.tsx">
-          <Label htmlFor="amount" data-id="56prh9lym" data-path="src/pages/ExpensesPage.tsx">Amount (₹)</Label>
+      <div className="grid grid-cols-2 gap-4" data-id="r5ys0hzed" data-path="src/pages/ExpensesPage.tsx">
+        <div className="space-y-2" data-id="1cft79fpc" data-path="src/pages/ExpensesPage.tsx">
+          <Label htmlFor="amount" data-id="hwszvguf8" data-path="src/pages/ExpensesPage.tsx">Amount (₹)</Label>
           <Input
           id="amount"
           type="number"
           placeholder="0"
           value={newExpense.amount}
-          onChange={(e) => setNewExpense((prev) => ({ ...prev, amount: e.target.value }))} data-id="4ky5sphqn" data-path="src/pages/ExpensesPage.tsx" />
+          onChange={(e) => setNewExpense((prev) => ({ ...prev, amount: e.target.value }))} data-id="edq36osav" data-path="src/pages/ExpensesPage.tsx" />
 
         </div>
 
-        <div className="space-y-2" data-id="2lrlvo0f0" data-path="src/pages/ExpensesPage.tsx">
-          <Label htmlFor="category" data-id="vu2q7ptbl" data-path="src/pages/ExpensesPage.tsx">Category</Label>
-          <Select value={newExpense.category} onValueChange={(value) => setNewExpense((prev) => ({ ...prev, category: value }))} data-id="0jqj8n56t" data-path="src/pages/ExpensesPage.tsx">
-            <SelectTrigger data-id="x7ud0bjz3" data-path="src/pages/ExpensesPage.tsx">
-              <SelectValue placeholder="Select category" data-id="ugqylbp03" data-path="src/pages/ExpensesPage.tsx" />
+        <div className="space-y-2" data-id="a6sp0rn77" data-path="src/pages/ExpensesPage.tsx">
+          <Label htmlFor="category" data-id="067bi5lj2" data-path="src/pages/ExpensesPage.tsx">Category</Label>
+          <Select value={newExpense.category} onValueChange={(value) => setNewExpense((prev) => ({ ...prev, category: value }))} data-id="hom4ecj2u" data-path="src/pages/ExpensesPage.tsx">
+            <SelectTrigger data-id="2hm4oedsu" data-path="src/pages/ExpensesPage.tsx">
+              <SelectValue placeholder="Select category" data-id="q1zqggcjx" data-path="src/pages/ExpensesPage.tsx" />
             </SelectTrigger>
-            <SelectContent data-id="qp2airm1z" data-path="src/pages/ExpensesPage.tsx">
+            <SelectContent data-id="lrdg49r37" data-path="src/pages/ExpensesPage.tsx">
               {categories.map((category) =>
-            <SelectItem key={category.name} value={category.name} data-id="wko587tx7" data-path="src/pages/ExpensesPage.tsx">
-                  <div className="flex items-center gap-2" data-id="cj8j6ses9" data-path="src/pages/ExpensesPage.tsx">
+            <SelectItem key={category.name} value={category.name} data-id="o35ugnp28" data-path="src/pages/ExpensesPage.tsx">
+                  <div className="flex items-center gap-2" data-id="0n613tt6m" data-path="src/pages/ExpensesPage.tsx">
                     {category.icon}
                     {category.name}
                   </div>
@@ -313,139 +373,151 @@ const ExpensesPage = () => {
         </div>
       </div>
 
-      <div className="space-y-2" data-id="2inc1fwkk" data-path="src/pages/ExpensesPage.tsx">
-        <Label data-id="6smk2l4m1" data-path="src/pages/ExpensesPage.tsx">Date</Label>
-        <Popover data-id="u1jdwmhla" data-path="src/pages/ExpensesPage.tsx">
-          <PopoverTrigger asChild data-id="4sbh1f0tw" data-path="src/pages/ExpensesPage.tsx">
-            <Button variant="outline" className="w-full justify-start text-left font-normal" data-id="pj71nzg8f" data-path="src/pages/ExpensesPage.tsx">
-              <CalendarIcon className="mr-2 h-4 w-4" data-id="r39hu77ea" data-path="src/pages/ExpensesPage.tsx" />
+      <div className="space-y-2" data-id="rclpia5vr" data-path="src/pages/ExpensesPage.tsx">
+        <Label data-id="uffrgflxl" data-path="src/pages/ExpensesPage.tsx">Date</Label>
+        <Popover data-id="3cokm68a2" data-path="src/pages/ExpensesPage.tsx">
+          <PopoverTrigger asChild data-id="jdo7gnlez" data-path="src/pages/ExpensesPage.tsx">
+            <Button variant="outline" className="w-full justify-start text-left font-normal" data-id="dx821tu40" data-path="src/pages/ExpensesPage.tsx">
+              <CalendarIcon className="mr-2 h-4 w-4" data-id="1vx427er5" data-path="src/pages/ExpensesPage.tsx" />
               {format(newExpense.date, 'PPP')}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" data-id="5wgqfs4fa" data-path="src/pages/ExpensesPage.tsx">
+          <PopoverContent className="w-auto p-0" data-id="my50r2j7x" data-path="src/pages/ExpensesPage.tsx">
             <Calendar
             mode="single"
             selected={newExpense.date}
             onSelect={(date) => date && setNewExpense((prev) => ({ ...prev, date }))}
-            initialFocus data-id="hyp90pjur" data-path="src/pages/ExpensesPage.tsx" />
+            initialFocus data-id="llv82okzz" data-path="src/pages/ExpensesPage.tsx" />
 
           </PopoverContent>
         </Popover>
       </div>
 
-      <div className="space-y-2" data-id="fam4p0mjk" data-path="src/pages/ExpensesPage.tsx">
-        <Label htmlFor="notes" data-id="j2hmz7qb9" data-path="src/pages/ExpensesPage.tsx">Notes (Optional)</Label>
+      <div className="space-y-2" data-id="c2sjfp32l" data-path="src/pages/ExpensesPage.tsx">
+        <Label htmlFor="notes" data-id="1r5cuu56t" data-path="src/pages/ExpensesPage.tsx">Notes (Optional)</Label>
         <Textarea
         id="notes"
         placeholder="Add any additional details..."
         value={newExpense.notes}
-        onChange={(e) => setNewExpense((prev) => ({ ...prev, notes: e.target.value }))} data-id="itgucz26b" data-path="src/pages/ExpensesPage.tsx" />
+        onChange={(e) => setNewExpense((prev) => ({ ...prev, notes: e.target.value }))} data-id="wf67mzkq4" data-path="src/pages/ExpensesPage.tsx" />
 
       </div>
 
-      <div className="flex space-x-2 pt-4" data-id="nu1mk9cqf" data-path="src/pages/ExpensesPage.tsx">
-        <Button onClick={handleAddExpense} className="flex-1" data-id="epinny25t" data-path="src/pages/ExpensesPage.tsx">
+      <div className="flex space-x-2 pt-4" data-id="1xgdaysjl" data-path="src/pages/ExpensesPage.tsx">
+        <Button onClick={handleAddExpense} className="flex-1" data-id="rmmux8duw" data-path="src/pages/ExpensesPage.tsx">
           Add Expense
         </Button>
-        <Button variant="outline" onClick={() => setIsAddDialogOpen(false)} data-id="xine14r7x" data-path="src/pages/ExpensesPage.tsx">
+        <Button variant="outline" onClick={() => setIsAddDialogOpen(false)} data-id="djrwxe8z0" data-path="src/pages/ExpensesPage.tsx">
           Cancel
         </Button>
       </div>
     </div>;
 
 
-  return (
-    <DashboardLayout data-id="642t12rwx" data-path="src/pages/ExpensesPage.tsx">
-      <div className="p-6 space-y-6" data-id="1d0cecfuy" data-path="src/pages/ExpensesPage.tsx">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4" data-id="1y0kzbv5a" data-path="src/pages/ExpensesPage.tsx">
-          <div data-id="0kmgy3o8n" data-path="src/pages/ExpensesPage.tsx">
-            <h1 className="text-3xl font-bold text-gray-900" data-id="1q0sv3s8r" data-path="src/pages/ExpensesPage.tsx">Expenses</h1>
-            <p className="text-gray-600" data-id="xdhbtgjj8" data-path="src/pages/ExpensesPage.tsx">Track and manage your spending</p>
+  if (loading) {
+    return (
+      <DashboardLayout data-id="9vz1ww90l" data-path="src/pages/ExpensesPage.tsx">
+        <div className="p-6 space-y-6" data-id="nyn9gpj9c" data-path="src/pages/ExpensesPage.tsx">
+          <div className="flex items-center justify-center h-64" data-id="cuqt5eukl" data-path="src/pages/ExpensesPage.tsx">
+            <div className="text-lg" data-id="jjuibulxd" data-path="src/pages/ExpensesPage.tsx">Loading expenses...</div>
           </div>
-          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen} data-id="rroyib1wt" data-path="src/pages/ExpensesPage.tsx">
-            <DialogTrigger asChild data-id="el7edbj06" data-path="src/pages/ExpensesPage.tsx">
-              <Button className="bg-blue-600 hover:bg-blue-700" data-id="ea9sc8fi9" data-path="src/pages/ExpensesPage.tsx">
-                <Plus className="h-4 w-4 mr-2" data-id="q0e7qosvz" data-path="src/pages/ExpensesPage.tsx" />
+        </div>
+      </DashboardLayout>);
+
+  }
+
+  return (
+    <DashboardLayout data-id="q8exymm99" data-path="src/pages/ExpensesPage.tsx">
+      <div className="p-6 space-y-6" data-id="4semmjz0n" data-path="src/pages/ExpensesPage.tsx">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4" data-id="rgynnzy9r" data-path="src/pages/ExpensesPage.tsx">
+          <div data-id="o17zdmd69" data-path="src/pages/ExpensesPage.tsx">
+            <h1 className="text-3xl font-bold text-gray-900" data-id="7uzeio3wz" data-path="src/pages/ExpensesPage.tsx">Expenses</h1>
+            <p className="text-gray-600" data-id="nljj8vg5n" data-path="src/pages/ExpensesPage.tsx">Track and manage your spending</p>
+          </div>
+          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen} data-id="en8ev6o1w" data-path="src/pages/ExpensesPage.tsx">
+            <DialogTrigger asChild data-id="tepqdlabf" data-path="src/pages/ExpensesPage.tsx">
+              <Button className="bg-blue-600 hover:bg-blue-700" data-id="1y44fgvuo" data-path="src/pages/ExpensesPage.tsx">
+                <Plus className="h-4 w-4 mr-2" data-id="nkzwp77vl" data-path="src/pages/ExpensesPage.tsx" />
                 Add Expense
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md" data-id="nx41lt0ch" data-path="src/pages/ExpensesPage.tsx">
-              <DialogHeader data-id="x7tv6dnim" data-path="src/pages/ExpensesPage.tsx">
-                <DialogTitle data-id="r0bn6e8tu" data-path="src/pages/ExpensesPage.tsx">Add New Expense</DialogTitle>
-                <DialogDescription data-id="xxdti5rvu" data-path="src/pages/ExpensesPage.tsx">
+            <DialogContent className="sm:max-w-md" data-id="9xlyihok5" data-path="src/pages/ExpensesPage.tsx">
+              <DialogHeader data-id="k6otwqnbs" data-path="src/pages/ExpensesPage.tsx">
+                <DialogTitle data-id="ml77rdr55" data-path="src/pages/ExpensesPage.tsx">Add New Expense</DialogTitle>
+                <DialogDescription data-id="xwx7mp9nu" data-path="src/pages/ExpensesPage.tsx">
                   Record a new expense to track your spending.
                 </DialogDescription>
               </DialogHeader>
-              <AddExpenseForm data-id="dxwqipd8a" data-path="src/pages/ExpensesPage.tsx" />
+              <AddExpenseForm data-id="7jky222dd" data-path="src/pages/ExpensesPage.tsx" />
             </DialogContent>
           </Dialog>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6" data-id="sbqzv9kuc" data-path="src/pages/ExpensesPage.tsx">
-          <Card data-id="bivtfzlkw" data-path="src/pages/ExpensesPage.tsx">
-            <CardContent className="p-6" data-id="i3ffmph13" data-path="src/pages/ExpensesPage.tsx">
-              <div className="flex items-center justify-between" data-id="oz05kq5dd" data-path="src/pages/ExpensesPage.tsx">
-                <div data-id="9q1sro8le" data-path="src/pages/ExpensesPage.tsx">
-                  <p className="text-sm font-medium text-gray-600" data-id="z4otucwiq" data-path="src/pages/ExpensesPage.tsx">Total Expenses</p>
-                  <p className="text-2xl font-bold text-red-600" data-id="0livenbsc" data-path="src/pages/ExpensesPage.tsx">₹{totalExpenses.toLocaleString()}</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6" data-id="47m6laq9f" data-path="src/pages/ExpensesPage.tsx">
+          <Card data-id="6tz0kbo4n" data-path="src/pages/ExpensesPage.tsx">
+            <CardContent className="p-6" data-id="rmqb0aolz" data-path="src/pages/ExpensesPage.tsx">
+              <div className="flex items-center justify-between" data-id="49z51ylpa" data-path="src/pages/ExpensesPage.tsx">
+                <div data-id="jjupaze57" data-path="src/pages/ExpensesPage.tsx">
+                  <p className="text-sm font-medium text-gray-600" data-id="v7hmhrbk7" data-path="src/pages/ExpensesPage.tsx">Total Expenses</p>
+                  <p className="text-2xl font-bold text-red-600" data-id="34mnppiwd" data-path="src/pages/ExpensesPage.tsx">₹{totalExpenses.toLocaleString()}</p>
                 </div>
-                <TrendingDown className="h-8 w-8 text-red-600" data-id="cfz0jkz45" data-path="src/pages/ExpensesPage.tsx" />
+                <TrendingDown className="h-8 w-8 text-red-600" data-id="37xpjrbbz" data-path="src/pages/ExpensesPage.tsx" />
               </div>
             </CardContent>
           </Card>
 
-          <Card data-id="149txuasn" data-path="src/pages/ExpensesPage.tsx">
-            <CardContent className="p-6" data-id="74gw692re" data-path="src/pages/ExpensesPage.tsx">
-              <div className="flex items-center justify-between" data-id="cunbr2b80" data-path="src/pages/ExpensesPage.tsx">
-                <div data-id="z9cjyhy1g" data-path="src/pages/ExpensesPage.tsx">
-                  <p className="text-sm font-medium text-gray-600" data-id="g2091z1bq" data-path="src/pages/ExpensesPage.tsx">Total Transactions</p>
-                  <p className="text-2xl font-bold text-gray-900" data-id="fknd3gwul" data-path="src/pages/ExpensesPage.tsx">{filteredExpenses.length}</p>
+          <Card data-id="m1owvtve1" data-path="src/pages/ExpensesPage.tsx">
+            <CardContent className="p-6" data-id="ry8wx5cek" data-path="src/pages/ExpensesPage.tsx">
+              <div className="flex items-center justify-between" data-id="m7mn72uzv" data-path="src/pages/ExpensesPage.tsx">
+                <div data-id="gqpmu3bud" data-path="src/pages/ExpensesPage.tsx">
+                  <p className="text-sm font-medium text-gray-600" data-id="s97yizpsb" data-path="src/pages/ExpensesPage.tsx">Total Transactions</p>
+                  <p className="text-2xl font-bold text-gray-900" data-id="entqwnp20" data-path="src/pages/ExpensesPage.tsx">{filteredExpenses.length}</p>
                 </div>
-                <Receipt className="h-8 w-8 text-gray-600" data-id="kccztltcs" data-path="src/pages/ExpensesPage.tsx" />
+                <Receipt className="h-8 w-8 text-gray-600" data-id="uglf7ulut" data-path="src/pages/ExpensesPage.tsx" />
               </div>
             </CardContent>
           </Card>
 
-          <Card data-id="8ehxboelm" data-path="src/pages/ExpensesPage.tsx">
-            <CardContent className="p-6" data-id="coymcbley" data-path="src/pages/ExpensesPage.tsx">
-              <div className="flex items-center justify-between" data-id="r4gw247y3" data-path="src/pages/ExpensesPage.tsx">
-                <div data-id="4wxv6ljct" data-path="src/pages/ExpensesPage.tsx">
-                  <p className="text-sm font-medium text-gray-600" data-id="xyzvpcou3" data-path="src/pages/ExpensesPage.tsx">Avg per Transaction</p>
-                  <p className="text-2xl font-bold text-purple-600" data-id="fixvyuor4" data-path="src/pages/ExpensesPage.tsx">₹{Math.round(avgExpensePerDay).toLocaleString()}</p>
+          <Card data-id="bo6wdtske" data-path="src/pages/ExpensesPage.tsx">
+            <CardContent className="p-6" data-id="rwysujta6" data-path="src/pages/ExpensesPage.tsx">
+              <div className="flex items-center justify-between" data-id="9et10eg9w" data-path="src/pages/ExpensesPage.tsx">
+                <div data-id="ukk7e723x" data-path="src/pages/ExpensesPage.tsx">
+                  <p className="text-sm font-medium text-gray-600" data-id="uprm6kquv" data-path="src/pages/ExpensesPage.tsx">Avg per Transaction</p>
+                  <p className="text-2xl font-bold text-purple-600" data-id="gd9s1qq6x" data-path="src/pages/ExpensesPage.tsx">₹{Math.round(avgExpensePerDay).toLocaleString()}</p>
                 </div>
-                <Receipt className="h-8 w-8 text-purple-600" data-id="cunits404" data-path="src/pages/ExpensesPage.tsx" />
+                <Receipt className="h-8 w-8 text-purple-600" data-id="lf57g2mfl" data-path="src/pages/ExpensesPage.tsx" />
               </div>
             </CardContent>
           </Card>
         </div>
 
         {/* Filters */}
-        <Card data-id="uw548i4th" data-path="src/pages/ExpensesPage.tsx">
-          <CardContent className="p-6" data-id="bp5nzeekh" data-path="src/pages/ExpensesPage.tsx">
-            <div className="flex flex-col md:flex-row gap-4" data-id="44dh77bin" data-path="src/pages/ExpensesPage.tsx">
-              <div className="flex-1" data-id="xhdfuqgwr" data-path="src/pages/ExpensesPage.tsx">
-                <div className="relative" data-id="n1u92b9hj" data-path="src/pages/ExpensesPage.tsx">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" data-id="iousw0ih1" data-path="src/pages/ExpensesPage.tsx" />
+        <Card data-id="y4x0keoo5" data-path="src/pages/ExpensesPage.tsx">
+          <CardContent className="p-6" data-id="e9ktbnx6o" data-path="src/pages/ExpensesPage.tsx">
+            <div className="flex flex-col md:flex-row gap-4" data-id="52mrhz7a4" data-path="src/pages/ExpensesPage.tsx">
+              <div className="flex-1" data-id="0vsxcdexf" data-path="src/pages/ExpensesPage.tsx">
+                <div className="relative" data-id="sijpprbzc" data-path="src/pages/ExpensesPage.tsx">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" data-id="kj4u35enn" data-path="src/pages/ExpensesPage.tsx" />
                   <Input
                     placeholder="Search expenses..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10" data-id="qtresu4vn" data-path="src/pages/ExpensesPage.tsx" />
+                    className="pl-10" data-id="g8p7i975c" data-path="src/pages/ExpensesPage.tsx" />
 
                 </div>
               </div>
 
-              <Select value={selectedCategory} onValueChange={setSelectedCategory} data-id="0cvautbeh" data-path="src/pages/ExpensesPage.tsx">
-                <SelectTrigger className="w-full md:w-48" data-id="01y16v0rd" data-path="src/pages/ExpensesPage.tsx">
-                  <SelectValue placeholder="All Categories" data-id="lj8fwjk4r" data-path="src/pages/ExpensesPage.tsx" />
+              <Select value={selectedCategory} onValueChange={setSelectedCategory} data-id="kmrw0wu7n" data-path="src/pages/ExpensesPage.tsx">
+                <SelectTrigger className="w-full md:w-48" data-id="5vxixx88f" data-path="src/pages/ExpensesPage.tsx">
+                  <SelectValue placeholder="All Categories" data-id="8caffx06h" data-path="src/pages/ExpensesPage.tsx" />
                 </SelectTrigger>
-                <SelectContent data-id="x2t64pbg3" data-path="src/pages/ExpensesPage.tsx">
-                  <SelectItem value="All" data-id="h09hyzpxf" data-path="src/pages/ExpensesPage.tsx">All Categories</SelectItem>
+                <SelectContent data-id="pkl1rx37u" data-path="src/pages/ExpensesPage.tsx">
+                  <SelectItem value="All" data-id="rzwvr40gq" data-path="src/pages/ExpensesPage.tsx">All Categories</SelectItem>
                   {categories.map((category) =>
-                  <SelectItem key={category.name} value={category.name} data-id="hitc2esp4" data-path="src/pages/ExpensesPage.tsx">
-                      <div className="flex items-center gap-2" data-id="fsz1di2rc" data-path="src/pages/ExpensesPage.tsx">
+                  <SelectItem key={category.name} value={category.name} data-id="5ivorxb31" data-path="src/pages/ExpensesPage.tsx">
+                      <div className="flex items-center gap-2" data-id="csch8wyes" data-path="src/pages/ExpensesPage.tsx">
                         {category.icon}
                         {category.name}
                       </div>
@@ -454,14 +526,14 @@ const ExpensesPage = () => {
                 </SelectContent>
               </Select>
 
-              <Select value={selectedMonth} onValueChange={setSelectedMonth} data-id="083yny3bt" data-path="src/pages/ExpensesPage.tsx">
-                <SelectTrigger className="w-full md:w-48" data-id="d2ytglrwz" data-path="src/pages/ExpensesPage.tsx">
-                  <SelectValue placeholder="All Time" data-id="npis09ly5" data-path="src/pages/ExpensesPage.tsx" />
+              <Select value={selectedMonth} onValueChange={setSelectedMonth} data-id="3gepj3pah" data-path="src/pages/ExpensesPage.tsx">
+                <SelectTrigger className="w-full md:w-48" data-id="wzzvnrt4k" data-path="src/pages/ExpensesPage.tsx">
+                  <SelectValue placeholder="All Time" data-id="wguurn5r7" data-path="src/pages/ExpensesPage.tsx" />
                 </SelectTrigger>
-                <SelectContent data-id="qxklibppe" data-path="src/pages/ExpensesPage.tsx">
-                  <SelectItem value="All" data-id="fgtfm1a29" data-path="src/pages/ExpensesPage.tsx">All Time</SelectItem>
-                  <SelectItem value="This Month" data-id="vh9hj88h6" data-path="src/pages/ExpensesPage.tsx">This Month</SelectItem>
-                  <SelectItem value="Last Month" data-id="lov01djkl" data-path="src/pages/ExpensesPage.tsx">Last Month</SelectItem>
+                <SelectContent data-id="ro4hmc3g1" data-path="src/pages/ExpensesPage.tsx">
+                  <SelectItem value="All" data-id="i1uemfra5" data-path="src/pages/ExpensesPage.tsx">All Time</SelectItem>
+                  <SelectItem value="This Month" data-id="ojmk06caa" data-path="src/pages/ExpensesPage.tsx">This Month</SelectItem>
+                  <SelectItem value="Last Month" data-id="o20763iyu" data-path="src/pages/ExpensesPage.tsx">Last Month</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -469,23 +541,23 @@ const ExpensesPage = () => {
         </Card>
 
         {/* Category Overview */}
-        <Card data-id="pj1edfgrn" data-path="src/pages/ExpensesPage.tsx">
-          <CardHeader data-id="e9vp7mhde" data-path="src/pages/ExpensesPage.tsx">
-            <CardTitle data-id="a0syx01y6" data-path="src/pages/ExpensesPage.tsx">Expenses by Category</CardTitle>
+        <Card data-id="jso41bwxe" data-path="src/pages/ExpensesPage.tsx">
+          <CardHeader data-id="e8nrme38b" data-path="src/pages/ExpensesPage.tsx">
+            <CardTitle data-id="wfkxp5tgf" data-path="src/pages/ExpensesPage.tsx">Expenses by Category</CardTitle>
           </CardHeader>
-          <CardContent data-id="2u3d2q73q" data-path="src/pages/ExpensesPage.tsx">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4" data-id="28cix3dbt" data-path="src/pages/ExpensesPage.tsx">
+          <CardContent data-id="gjlmecqhg" data-path="src/pages/ExpensesPage.tsx">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4" data-id="qaoqtz2ap" data-path="src/pages/ExpensesPage.tsx">
               {categories.map((category) => {
                 const categoryExpenses = filteredExpenses.filter((expense) => expense.category === category.name);
                 const categoryTotal = categoryExpenses.reduce((sum, expense) => sum + expense.amount, 0);
                 const percentage = totalExpenses > 0 ? categoryTotal / totalExpenses * 100 : 0;
 
                 return (
-                  <div key={category.name} className="text-center p-4 rounded-lg bg-gray-50" data-id="4xa8dw4u8" data-path="src/pages/ExpensesPage.tsx">
-                    <div className="text-2xl mb-2" data-id="01jsp7pry" data-path="src/pages/ExpensesPage.tsx">{category.icon}</div>
-                    <div className="font-medium text-sm" data-id="iwsgnrfh0" data-path="src/pages/ExpensesPage.tsx">{category.name}</div>
-                    <div className="text-lg font-bold text-gray-900" data-id="wa7hpkqlu" data-path="src/pages/ExpensesPage.tsx">₹{categoryTotal.toLocaleString()}</div>
-                    <div className="text-xs text-gray-500" data-id="kyolc1sab" data-path="src/pages/ExpensesPage.tsx">{percentage.toFixed(1)}%</div>
+                  <div key={category.name} className="text-center p-4 rounded-lg bg-gray-50" data-id="thiagl1no" data-path="src/pages/ExpensesPage.tsx">
+                    <div className="text-2xl mb-2" data-id="4fnz2v3br" data-path="src/pages/ExpensesPage.tsx">{category.icon}</div>
+                    <div className="font-medium text-sm" data-id="4my60r0bk" data-path="src/pages/ExpensesPage.tsx">{category.name}</div>
+                    <div className="text-lg font-bold text-gray-900" data-id="hz0blo40e" data-path="src/pages/ExpensesPage.tsx">₹{categoryTotal.toLocaleString()}</div>
+                    <div className="text-xs text-gray-500" data-id="1ci8rrqqm" data-path="src/pages/ExpensesPage.tsx">{percentage.toFixed(1)}%</div>
                   </div>);
 
               })}
@@ -494,33 +566,33 @@ const ExpensesPage = () => {
         </Card>
 
         {/* Expenses List */}
-        <Card data-id="cma3gt1k2" data-path="src/pages/ExpensesPage.tsx">
-          <CardHeader data-id="mczqjnp5v" data-path="src/pages/ExpensesPage.tsx">
-            <CardTitle data-id="8srqfcaz5" data-path="src/pages/ExpensesPage.tsx">Recent Expenses</CardTitle>
-            <CardDescription data-id="hxbe1uogc" data-path="src/pages/ExpensesPage.tsx">
+        <Card data-id="qlkp2n4ya" data-path="src/pages/ExpensesPage.tsx">
+          <CardHeader data-id="0y2ec2gh4" data-path="src/pages/ExpensesPage.tsx">
+            <CardTitle data-id="0bmt5eu1s" data-path="src/pages/ExpensesPage.tsx">Recent Expenses</CardTitle>
+            <CardDescription data-id="3zife7hyk" data-path="src/pages/ExpensesPage.tsx">
               {filteredExpenses.length} {filteredExpenses.length === 1 ? 'expense' : 'expenses'} found
             </CardDescription>
           </CardHeader>
-          <CardContent data-id="hky760igk" data-path="src/pages/ExpensesPage.tsx">
+          <CardContent data-id="cvmxd5mph" data-path="src/pages/ExpensesPage.tsx">
             {filteredExpenses.length === 0 ?
-            <div className="text-center py-12" data-id="3g9g9yuch" data-path="src/pages/ExpensesPage.tsx">
-                <Receipt className="h-12 w-12 text-gray-400 mx-auto mb-4" data-id="7ayk1kf42" data-path="src/pages/ExpensesPage.tsx" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2" data-id="6f7nz4pbo" data-path="src/pages/ExpensesPage.tsx">No expenses found</h3>
-                <p className="text-gray-600 mb-4" data-id="3t9fue3tn" data-path="src/pages/ExpensesPage.tsx">
+            <div className="text-center py-12" data-id="os89la1je" data-path="src/pages/ExpensesPage.tsx">
+                <Receipt className="h-12 w-12 text-gray-400 mx-auto mb-4" data-id="vrgw1s6yy" data-path="src/pages/ExpensesPage.tsx" />
+                <h3 className="text-lg font-medium text-gray-900 mb-2" data-id="v52uf81jt" data-path="src/pages/ExpensesPage.tsx">No expenses found</h3>
+                <p className="text-gray-600 mb-4" data-id="m5wguaxlg" data-path="src/pages/ExpensesPage.tsx">
                   {searchTerm || selectedCategory !== 'All' ?
                 'Try adjusting your filters or search terms.' :
                 'Start tracking your expenses by adding your first expense.'
                 }
                 </p>
-                <Button onClick={() => setIsAddDialogOpen(true)} data-id="ppr5i22f3" data-path="src/pages/ExpensesPage.tsx">
-                  <Plus className="h-4 w-4 mr-2" data-id="f3gpr32yo" data-path="src/pages/ExpensesPage.tsx" />
+                <Button onClick={() => setIsAddDialogOpen(true)} data-id="qvpyy1mb7" data-path="src/pages/ExpensesPage.tsx">
+                  <Plus className="h-4 w-4 mr-2" data-id="woy4c3z9r" data-path="src/pages/ExpensesPage.tsx" />
                   Add First Expense
                 </Button>
               </div> :
 
-            <div className="space-y-4" data-id="sx9bumho2" data-path="src/pages/ExpensesPage.tsx">
+            <div className="space-y-4" data-id="rg266wl8f" data-path="src/pages/ExpensesPage.tsx">
                 {filteredExpenses.map((expense) =>
-              <ExpenseCard key={expense.id} expense={expense} data-id="tuji6ejge" data-path="src/pages/ExpensesPage.tsx" />
+              <ExpenseCard key={expense.ID} expense={expense} data-id="0yiwi2eh2" data-path="src/pages/ExpensesPage.tsx" />
               )}
               </div>
             }

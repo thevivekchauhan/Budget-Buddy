@@ -33,13 +33,13 @@ const FinancialTipsPage = () => {
   const [selectedType, setSelectedType] = useState('all');
 
   const categories = [
-  { name: 'Budgeting', icon: <Target className="h-4 w-4" data-id="7ia56pylv" data-path="src/pages/FinancialTipsPage.tsx" />, color: 'bg-blue-100 text-blue-800' },
-  { name: 'Saving', icon: <PiggyBank className="h-4 w-4" data-id="y0vydfg7x" data-path="src/pages/FinancialTipsPage.tsx" />, color: 'bg-green-100 text-green-800' },
-  { name: 'Student Life', icon: <GraduationCap className="h-4 w-4" data-id="l2uzifgd1" data-path="src/pages/FinancialTipsPage.tsx" />, color: 'bg-purple-100 text-purple-800' },
-  { name: 'Investment', icon: <TrendingUp className="h-4 w-4" data-id="tg7jvp5vc" data-path="src/pages/FinancialTipsPage.tsx" />, color: 'bg-orange-100 text-orange-800' },
-  { name: 'Credit Cards', icon: <CreditCard className="h-4 w-4" data-id="r20w9hr8p" data-path="src/pages/FinancialTipsPage.tsx" />, color: 'bg-red-100 text-red-800' },
-  { name: 'Insurance', icon: <Shield className="h-4 w-4" data-id="pf5gdeav0" data-path="src/pages/FinancialTipsPage.tsx" />, color: 'bg-indigo-100 text-indigo-800' },
-  { name: 'Lifestyle', icon: <Heart className="h-4 w-4" data-id="rhbs7zwzy" data-path="src/pages/FinancialTipsPage.tsx" />, color: 'bg-pink-100 text-pink-800' }];
+  { name: 'Budgeting', icon: <Target className="h-4 w-4" data-id="1khm57i0q" data-path="src/pages/FinancialTipsPage.tsx" />, color: 'bg-blue-100 text-blue-800' },
+  { name: 'Saving', icon: <PiggyBank className="h-4 w-4" data-id="s5ni7ndgi" data-path="src/pages/FinancialTipsPage.tsx" />, color: 'bg-green-100 text-green-800' },
+  { name: 'Student Life', icon: <GraduationCap className="h-4 w-4" data-id="nlxw28syp" data-path="src/pages/FinancialTipsPage.tsx" />, color: 'bg-purple-100 text-purple-800' },
+  { name: 'Investment', icon: <TrendingUp className="h-4 w-4" data-id="nh7b0ijqn" data-path="src/pages/FinancialTipsPage.tsx" />, color: 'bg-orange-100 text-orange-800' },
+  { name: 'Credit Cards', icon: <CreditCard className="h-4 w-4" data-id="tbn5fdmv7" data-path="src/pages/FinancialTipsPage.tsx" />, color: 'bg-red-100 text-red-800' },
+  { name: 'Insurance', icon: <Shield className="h-4 w-4" data-id="vtfqfm0zj" data-path="src/pages/FinancialTipsPage.tsx" />, color: 'bg-indigo-100 text-indigo-800' },
+  { name: 'Lifestyle', icon: <Heart className="h-4 w-4" data-id="787y6lhrj" data-path="src/pages/FinancialTipsPage.tsx" />, color: 'bg-pink-100 text-pink-800' }];
 
 
   const tips = [
@@ -161,25 +161,25 @@ const FinancialTipsPage = () => {
   {
     title: "Track Every Rupee",
     description: "Use apps like Money Manager or simply maintain a daily expense diary",
-    icon: <Smartphone className="h-6 w-6" data-id="8ow1f249j" data-path="src/pages/FinancialTipsPage.tsx" />,
+    icon: <Smartphone className="h-6 w-6" data-id="5xkzfkelm" data-path="src/pages/FinancialTipsPage.tsx" />,
     color: "bg-blue-500"
   },
   {
     title: "Cook at Home",
     description: "Save ₹3000-5000/month by cooking instead of ordering food",
-    icon: <Home className="h-6 w-6" data-id="t56mgl77e" data-path="src/pages/FinancialTipsPage.tsx" />,
+    icon: <Home className="h-6 w-6" data-id="hb91wfwaw" data-path="src/pages/FinancialTipsPage.tsx" />,
     color: "bg-green-500"
   },
   {
     title: "Use Public Transport",
     description: "Monthly passes are always cheaper than daily tickets",
-    icon: <Car className="h-6 w-6" data-id="1yddgog7e" data-path="src/pages/FinancialTipsPage.tsx" />,
+    icon: <Car className="h-6 w-6" data-id="dcbl41p6h" data-path="src/pages/FinancialTipsPage.tsx" />,
     color: "bg-orange-500"
   },
   {
     title: "Group Study Sessions",
     description: "Share textbook costs and study materials with classmates",
-    icon: <Users className="h-6 w-6" data-id="z9sbxe03l" data-path="src/pages/FinancialTipsPage.tsx" />,
+    icon: <Users className="h-6 w-6" data-id="lnra56t3f" data-path="src/pages/FinancialTipsPage.tsx" />,
     color: "bg-purple-500"
   }];
 
@@ -211,42 +211,42 @@ const FinancialTipsPage = () => {
 
   const getCategoryIcon = (categoryName: string) => {
     const category = categories.find((cat) => cat.name === categoryName);
-    return category ? category.icon : <BookOpen className="h-4 w-4" data-id="qiikpa5lf" data-path="src/pages/FinancialTipsPage.tsx" />;
+    return category ? category.icon : <BookOpen className="h-4 w-4" data-id="75yv9stel" data-path="src/pages/FinancialTipsPage.tsx" />;
   };
 
   const TipCard = ({ tip }: {tip: typeof tips[0];}) =>
-  <Card className="hover:shadow-lg transition-all duration-300 h-full" data-id="toyj1lyg0" data-path="src/pages/FinancialTipsPage.tsx">
-      <CardContent className="p-6 h-full flex flex-col" data-id="stkxe11er" data-path="src/pages/FinancialTipsPage.tsx">
-        <div className="flex items-start justify-between mb-3" data-id="06w4wd7ru" data-path="src/pages/FinancialTipsPage.tsx">
-          <Badge variant="secondary" className={getCategoryStyle(tip.category)} data-id="ebwqnfmgk" data-path="src/pages/FinancialTipsPage.tsx">
+  <Card className="hover:shadow-lg transition-all duration-300 h-full" data-id="0aqj87qvg" data-path="src/pages/FinancialTipsPage.tsx">
+      <CardContent className="p-6 h-full flex flex-col" data-id="clx1zjm9q" data-path="src/pages/FinancialTipsPage.tsx">
+        <div className="flex items-start justify-between mb-3" data-id="ygde0u9xi" data-path="src/pages/FinancialTipsPage.tsx">
+          <Badge variant="secondary" className={getCategoryStyle(tip.category)} data-id="7j0cv1um8" data-path="src/pages/FinancialTipsPage.tsx">
             {getCategoryIcon(tip.category)}
-            <span className="ml-1" data-id="sse8gk0z2" data-path="src/pages/FinancialTipsPage.tsx">{tip.category}</span>
+            <span className="ml-1" data-id="q058vusa6" data-path="src/pages/FinancialTipsPage.tsx">{tip.category}</span>
           </Badge>
-          <Badge variant="outline" className="text-xs" data-id="mmv6x5kqh" data-path="src/pages/FinancialTipsPage.tsx">
+          <Badge variant="outline" className="text-xs" data-id="c68od02yp" data-path="src/pages/FinancialTipsPage.tsx">
             {tip.type}
           </Badge>
         </div>
         
-        <h3 className="font-bold text-lg text-gray-900 mb-2 line-clamp-2" data-id="cnpydrzfd" data-path="src/pages/FinancialTipsPage.tsx">{tip.title}</h3>
+        <h3 className="font-bold text-lg text-gray-900 mb-2 line-clamp-2" data-id="x3ccto8n4" data-path="src/pages/FinancialTipsPage.tsx">{tip.title}</h3>
         
-        <p className="text-gray-600 text-sm mb-4 flex-grow line-clamp-3" data-id="01765cvt1" data-path="src/pages/FinancialTipsPage.tsx">{tip.content}</p>
+        <p className="text-gray-600 text-sm mb-4 flex-grow line-clamp-3" data-id="7gmbctli7" data-path="src/pages/FinancialTipsPage.tsx">{tip.content}</p>
         
-        <div className="flex flex-wrap gap-1 mb-4" data-id="dma1atc13" data-path="src/pages/FinancialTipsPage.tsx">
+        <div className="flex flex-wrap gap-1 mb-4" data-id="fjqbpob1q" data-path="src/pages/FinancialTipsPage.tsx">
           {tip.tags.slice(0, 3).map((tag) =>
-        <Badge key={tag} variant="outline" className="text-xs" data-id="83ny06ls6" data-path="src/pages/FinancialTipsPage.tsx">
+        <Badge key={tag} variant="outline" className="text-xs" data-id="dljimgk5y" data-path="src/pages/FinancialTipsPage.tsx">
               #{tag}
             </Badge>
         )}
         </div>
         
-        <div className="flex items-center justify-between text-sm text-gray-500 mt-auto" data-id="kazov8yu6" data-path="src/pages/FinancialTipsPage.tsx">
-          <div className="flex items-center gap-4" data-id="5sums7whz" data-path="src/pages/FinancialTipsPage.tsx">
-            <span className="flex items-center gap-1" data-id="8i6vgzz2b" data-path="src/pages/FinancialTipsPage.tsx">
-              <Clock className="h-4 w-4" data-id="f1wm0n2cb" data-path="src/pages/FinancialTipsPage.tsx" />
+        <div className="flex items-center justify-between text-sm text-gray-500 mt-auto" data-id="esspooyxj" data-path="src/pages/FinancialTipsPage.tsx">
+          <div className="flex items-center gap-4" data-id="e9q1t5519" data-path="src/pages/FinancialTipsPage.tsx">
+            <span className="flex items-center gap-1" data-id="ad94ulyc2" data-path="src/pages/FinancialTipsPage.tsx">
+              <Clock className="h-4 w-4" data-id="ijtbp7pbo" data-path="src/pages/FinancialTipsPage.tsx" />
               {tip.readTime}
             </span>
-            <span className="flex items-center gap-1" data-id="wl3ihkorb" data-path="src/pages/FinancialTipsPage.tsx">
-              <Star className="h-4 w-4" data-id="5z3djejrg" data-path="src/pages/FinancialTipsPage.tsx" />
+            <span className="flex items-center gap-1" data-id="e4y3a1e2j" data-path="src/pages/FinancialTipsPage.tsx">
+              <Star className="h-4 w-4" data-id="4aaujhhhq" data-path="src/pages/FinancialTipsPage.tsx" />
               {tip.difficulty}
             </span>
           </div>
@@ -254,14 +254,14 @@ const FinancialTipsPage = () => {
           variant="ghost"
           size="sm"
           onClick={() => handleLike(tip.id)}
-          className={tip.isLiked ? 'text-red-500' : 'text-gray-500'} data-id="kiii6fv8v" data-path="src/pages/FinancialTipsPage.tsx">
+          className={tip.isLiked ? 'text-red-500' : 'text-gray-500'} data-id="asxe5ctmv" data-path="src/pages/FinancialTipsPage.tsx">
 
-            <ThumbsUp className="h-4 w-4 mr-1" data-id="l0rjf697y" data-path="src/pages/FinancialTipsPage.tsx" />
+            <ThumbsUp className="h-4 w-4 mr-1" data-id="zxl409gm1" data-path="src/pages/FinancialTipsPage.tsx" />
             {tip.likes}
           </Button>
         </div>
         
-        <div className="text-xs text-gray-400 mt-2" data-id="tkvkbtnr4" data-path="src/pages/FinancialTipsPage.tsx">
+        <div className="text-xs text-gray-400 mt-2" data-id="ljtsokie9" data-path="src/pages/FinancialTipsPage.tsx">
           By {tip.author} • {tip.date}
         </div>
       </CardContent>
@@ -269,34 +269,34 @@ const FinancialTipsPage = () => {
 
 
   return (
-    <DashboardLayout data-id="c7uuyrixt" data-path="src/pages/FinancialTipsPage.tsx">
-      <div className="p-6 space-y-6" data-id="mb3dxbufc" data-path="src/pages/FinancialTipsPage.tsx">
+    <DashboardLayout data-id="yzsl00hhv" data-path="src/pages/FinancialTipsPage.tsx">
+      <div className="p-6 space-y-6" data-id="yl2y350j0" data-path="src/pages/FinancialTipsPage.tsx">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto" data-id="iayd9r3j1" data-path="src/pages/FinancialTipsPage.tsx">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4" data-id="727a7lszn" data-path="src/pages/FinancialTipsPage.tsx">Financial Tips & Guides</h1>
-          <p className="text-xl text-gray-600" data-id="5ju4fb87u" data-path="src/pages/FinancialTipsPage.tsx">
+        <div className="text-center max-w-3xl mx-auto" data-id="tg1j2dxy1" data-path="src/pages/FinancialTipsPage.tsx">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4" data-id="n10cw5gu1" data-path="src/pages/FinancialTipsPage.tsx">Financial Tips & Guides</h1>
+          <p className="text-xl text-gray-600" data-id="uf4ripf51" data-path="src/pages/FinancialTipsPage.tsx">
             Learn money management skills designed specifically for students
           </p>
         </div>
 
         {/* Quick Tips */}
-        <Card data-id="s547oal47" data-path="src/pages/FinancialTipsPage.tsx">
-          <CardHeader data-id="7b6f9n0ez" data-path="src/pages/FinancialTipsPage.tsx">
-            <CardTitle className="flex items-center gap-2" data-id="n7l7a0mi5" data-path="src/pages/FinancialTipsPage.tsx">
-              <Lightbulb className="h-5 w-5 text-yellow-500" data-id="a6tjkdjkt" data-path="src/pages/FinancialTipsPage.tsx" />
+        <Card data-id="7j6i1x3xd" data-path="src/pages/FinancialTipsPage.tsx">
+          <CardHeader data-id="j8adezsdp" data-path="src/pages/FinancialTipsPage.tsx">
+            <CardTitle className="flex items-center gap-2" data-id="8gc35np37" data-path="src/pages/FinancialTipsPage.tsx">
+              <Lightbulb className="h-5 w-5 text-yellow-500" data-id="df1u9uszs" data-path="src/pages/FinancialTipsPage.tsx" />
               Quick Money-Saving Tips
             </CardTitle>
           </CardHeader>
-          <CardContent data-id="4iuzthbe1" data-path="src/pages/FinancialTipsPage.tsx">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" data-id="0qx3fmdkt" data-path="src/pages/FinancialTipsPage.tsx">
+          <CardContent data-id="51tff205n" data-path="src/pages/FinancialTipsPage.tsx">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" data-id="vv76m8ige" data-path="src/pages/FinancialTipsPage.tsx">
               {featuredTips.map((tip, index) =>
-              <div key={index} className="flex items-start space-x-3 p-4 bg-gray-50 rounded-lg" data-id="70xixl0k2" data-path="src/pages/FinancialTipsPage.tsx">
-                  <div className={`${tip.color} text-white p-2 rounded-full`} data-id="8s4boujv4" data-path="src/pages/FinancialTipsPage.tsx">
+              <div key={index} className="flex items-start space-x-3 p-4 bg-gray-50 rounded-lg" data-id="j29oslq0i" data-path="src/pages/FinancialTipsPage.tsx">
+                  <div className={`${tip.color} text-white p-2 rounded-full`} data-id="f1rh4dp1w" data-path="src/pages/FinancialTipsPage.tsx">
                     {tip.icon}
                   </div>
-                  <div data-id="v9zhul7vz" data-path="src/pages/FinancialTipsPage.tsx">
-                    <h4 className="font-semibold text-gray-900" data-id="4mt1kro26" data-path="src/pages/FinancialTipsPage.tsx">{tip.title}</h4>
-                    <p className="text-sm text-gray-600 mt-1" data-id="mp55pslv8" data-path="src/pages/FinancialTipsPage.tsx">{tip.description}</p>
+                  <div data-id="8ehlxb0mb" data-path="src/pages/FinancialTipsPage.tsx">
+                    <h4 className="font-semibold text-gray-900" data-id="vwfnn07ro" data-path="src/pages/FinancialTipsPage.tsx">{tip.title}</h4>
+                    <p className="text-sm text-gray-600 mt-1" data-id="rmmowhfth" data-path="src/pages/FinancialTipsPage.tsx">{tip.description}</p>
                   </div>
                 </div>
               )}
@@ -305,17 +305,17 @@ const FinancialTipsPage = () => {
         </Card>
 
         {/* Search and Filters */}
-        <Card data-id="eea7yz5k5" data-path="src/pages/FinancialTipsPage.tsx">
-          <CardContent className="p-6" data-id="j3cudnw8s" data-path="src/pages/FinancialTipsPage.tsx">
-            <div className="flex flex-col md:flex-row gap-4" data-id="kxq0mntzl" data-path="src/pages/FinancialTipsPage.tsx">
-              <div className="flex-1" data-id="5ybmxdpyi" data-path="src/pages/FinancialTipsPage.tsx">
-                <div className="relative" data-id="128o8qcum" data-path="src/pages/FinancialTipsPage.tsx">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" data-id="slc2l72rx" data-path="src/pages/FinancialTipsPage.tsx" />
+        <Card data-id="9dhhzok46" data-path="src/pages/FinancialTipsPage.tsx">
+          <CardContent className="p-6" data-id="5hz5ppy0g" data-path="src/pages/FinancialTipsPage.tsx">
+            <div className="flex flex-col md:flex-row gap-4" data-id="if9hw3q9a" data-path="src/pages/FinancialTipsPage.tsx">
+              <div className="flex-1" data-id="6756ok80v" data-path="src/pages/FinancialTipsPage.tsx">
+                <div className="relative" data-id="jkrbslubc" data-path="src/pages/FinancialTipsPage.tsx">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" data-id="k7evpnb9o" data-path="src/pages/FinancialTipsPage.tsx" />
                   <Input
                     placeholder="Search tips, guides, and articles..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10" data-id="kzuapdt74" data-path="src/pages/FinancialTipsPage.tsx" />
+                    className="pl-10" data-id="e2pecaa89" data-path="src/pages/FinancialTipsPage.tsx" />
 
                 </div>
               </div>
@@ -323,11 +323,11 @@ const FinancialTipsPage = () => {
               <select
                 className="px-3 py-2 border border-gray-300 rounded-md"
                 value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)} data-id="wth04uyp6" data-path="src/pages/FinancialTipsPage.tsx">
+                onChange={(e) => setSelectedCategory(e.target.value)} data-id="di6x6uhhr" data-path="src/pages/FinancialTipsPage.tsx">
 
-                <option value="All" data-id="5oprayhlh" data-path="src/pages/FinancialTipsPage.tsx">All Categories</option>
+                <option value="All" data-id="65mmlj65d" data-path="src/pages/FinancialTipsPage.tsx">All Categories</option>
                 {categories.map((category) =>
-                <option key={category.name} value={category.name} data-id="d1q6qjg72" data-path="src/pages/FinancialTipsPage.tsx">
+                <option key={category.name} value={category.name} data-id="ze3v4x62g" data-path="src/pages/FinancialTipsPage.tsx">
                     {category.name}
                   </option>
                 )}
@@ -336,95 +336,95 @@ const FinancialTipsPage = () => {
               <select
                 className="px-3 py-2 border border-gray-300 rounded-md"
                 value={selectedType}
-                onChange={(e) => setSelectedType(e.target.value)} data-id="1z5230snt" data-path="src/pages/FinancialTipsPage.tsx">
+                onChange={(e) => setSelectedType(e.target.value)} data-id="4as20946d" data-path="src/pages/FinancialTipsPage.tsx">
 
-                <option value="all" data-id="k0bb9xtzx" data-path="src/pages/FinancialTipsPage.tsx">All Types</option>
-                <option value="tip" data-id="vtojyakgq" data-path="src/pages/FinancialTipsPage.tsx">Quick Tips</option>
-                <option value="guide" data-id="lxqgrskg6" data-path="src/pages/FinancialTipsPage.tsx">Detailed Guides</option>
+                <option value="all" data-id="20sussr9h" data-path="src/pages/FinancialTipsPage.tsx">All Types</option>
+                <option value="tip" data-id="3joxgjcsx" data-path="src/pages/FinancialTipsPage.tsx">Quick Tips</option>
+                <option value="guide" data-id="99nmdrlkv" data-path="src/pages/FinancialTipsPage.tsx">Detailed Guides</option>
               </select>
             </div>
           </CardContent>
         </Card>
 
         {/* Content Tabs */}
-        <Tabs defaultValue="all" className="w-full" data-id="9petzqtfa" data-path="src/pages/FinancialTipsPage.tsx">
-          <TabsList className="grid w-full grid-cols-4" data-id="ywio4aj1q" data-path="src/pages/FinancialTipsPage.tsx">
-            <TabsTrigger value="all" data-id="fnfmjvf3p" data-path="src/pages/FinancialTipsPage.tsx">All Content</TabsTrigger>
-            <TabsTrigger value="beginner" data-id="h6ync92kw" data-path="src/pages/FinancialTipsPage.tsx">Beginner</TabsTrigger>
-            <TabsTrigger value="intermediate" data-id="nv1p8olh2" data-path="src/pages/FinancialTipsPage.tsx">Intermediate</TabsTrigger>
-            <TabsTrigger value="popular" data-id="1gs5bmcdk" data-path="src/pages/FinancialTipsPage.tsx">Most Popular</TabsTrigger>
+        <Tabs defaultValue="all" className="w-full" data-id="54xrtr3mq" data-path="src/pages/FinancialTipsPage.tsx">
+          <TabsList className="grid w-full grid-cols-4" data-id="wbp9bdvn5" data-path="src/pages/FinancialTipsPage.tsx">
+            <TabsTrigger value="all" data-id="47dr1v4p2" data-path="src/pages/FinancialTipsPage.tsx">All Content</TabsTrigger>
+            <TabsTrigger value="beginner" data-id="ercoelrgo" data-path="src/pages/FinancialTipsPage.tsx">Beginner</TabsTrigger>
+            <TabsTrigger value="intermediate" data-id="ghizkql6q" data-path="src/pages/FinancialTipsPage.tsx">Intermediate</TabsTrigger>
+            <TabsTrigger value="popular" data-id="5ea0mmqrn" data-path="src/pages/FinancialTipsPage.tsx">Most Popular</TabsTrigger>
           </TabsList>
           
-          <TabsContent value="all" className="mt-6" data-id="aa0a18ed4" data-path="src/pages/FinancialTipsPage.tsx">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-id="n444pfem3" data-path="src/pages/FinancialTipsPage.tsx">
+          <TabsContent value="all" className="mt-6" data-id="jialqfeqm" data-path="src/pages/FinancialTipsPage.tsx">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-id="67d9058hw" data-path="src/pages/FinancialTipsPage.tsx">
               {filteredTips.map((tip) =>
-              <TipCard key={tip.id} tip={tip} data-id="xlxy3ks1b" data-path="src/pages/FinancialTipsPage.tsx" />
+              <TipCard key={tip.id} tip={tip} data-id="gn7pngn9x" data-path="src/pages/FinancialTipsPage.tsx" />
               )}
             </div>
           </TabsContent>
           
-          <TabsContent value="beginner" className="mt-6" data-id="d9uz01spx" data-path="src/pages/FinancialTipsPage.tsx">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-id="miljadcu2" data-path="src/pages/FinancialTipsPage.tsx">
+          <TabsContent value="beginner" className="mt-6" data-id="z5uqywpam" data-path="src/pages/FinancialTipsPage.tsx">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-id="01bcogsl9" data-path="src/pages/FinancialTipsPage.tsx">
               {filteredTips.filter((tip) => tip.difficulty === 'Beginner').map((tip) =>
-              <TipCard key={tip.id} tip={tip} data-id="bo6z57jti" data-path="src/pages/FinancialTipsPage.tsx" />
+              <TipCard key={tip.id} tip={tip} data-id="o7pwa8p4l" data-path="src/pages/FinancialTipsPage.tsx" />
               )}
             </div>
           </TabsContent>
           
-          <TabsContent value="intermediate" className="mt-6" data-id="wmmdzz6ok" data-path="src/pages/FinancialTipsPage.tsx">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-id="x27p8cr21" data-path="src/pages/FinancialTipsPage.tsx">
+          <TabsContent value="intermediate" className="mt-6" data-id="sued4syhp" data-path="src/pages/FinancialTipsPage.tsx">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-id="85v30pkhq" data-path="src/pages/FinancialTipsPage.tsx">
               {filteredTips.filter((tip) => tip.difficulty === 'Intermediate').map((tip) =>
-              <TipCard key={tip.id} tip={tip} data-id="hajah1qzc" data-path="src/pages/FinancialTipsPage.tsx" />
+              <TipCard key={tip.id} tip={tip} data-id="g7bjcxr42" data-path="src/pages/FinancialTipsPage.tsx" />
               )}
             </div>
           </TabsContent>
           
-          <TabsContent value="popular" className="mt-6" data-id="tqpijci2p" data-path="src/pages/FinancialTipsPage.tsx">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-id="s1wv3s55p" data-path="src/pages/FinancialTipsPage.tsx">
+          <TabsContent value="popular" className="mt-6" data-id="65fhjpy36" data-path="src/pages/FinancialTipsPage.tsx">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-id="ickhqs48i" data-path="src/pages/FinancialTipsPage.tsx">
               {filteredTips.sort((a, b) => b.likes - a.likes).map((tip) =>
-              <TipCard key={tip.id} tip={tip} data-id="ui7n1qbur" data-path="src/pages/FinancialTipsPage.tsx" />
+              <TipCard key={tip.id} tip={tip} data-id="f3itmur43" data-path="src/pages/FinancialTipsPage.tsx" />
               )}
             </div>
           </TabsContent>
         </Tabs>
 
         {filteredTips.length === 0 &&
-        <div className="text-center py-12" data-id="h2arf2cpx" data-path="src/pages/FinancialTipsPage.tsx">
-            <BookOpen className="h-12 w-12 text-gray-400 mx-auto mb-4" data-id="le1e8ddsl" data-path="src/pages/FinancialTipsPage.tsx" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2" data-id="08moe1xbb" data-path="src/pages/FinancialTipsPage.tsx">No content found</h3>
-            <p className="text-gray-600" data-id="t9s5stycs" data-path="src/pages/FinancialTipsPage.tsx">
+        <div className="text-center py-12" data-id="hvl6gv875" data-path="src/pages/FinancialTipsPage.tsx">
+            <BookOpen className="h-12 w-12 text-gray-400 mx-auto mb-4" data-id="275uxpcnw" data-path="src/pages/FinancialTipsPage.tsx" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2" data-id="zpqci1p7r" data-path="src/pages/FinancialTipsPage.tsx">No content found</h3>
+            <p className="text-gray-600" data-id="dceqk9n6p" data-path="src/pages/FinancialTipsPage.tsx">
               Try adjusting your search terms or filters to find relevant content.
             </p>
           </div>
         }
 
         {/* Newsletter Signup */}
-        <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-0" data-id="22f7rczs8" data-path="src/pages/FinancialTipsPage.tsx">
-          <CardContent className="p-8 text-center" data-id="tqkeadtur" data-path="src/pages/FinancialTipsPage.tsx">
-            <h3 className="text-2xl font-bold text-gray-900 mb-2" data-id="6exq5ki9l" data-path="src/pages/FinancialTipsPage.tsx">Stay Updated</h3>
-            <p className="text-gray-600 mb-6" data-id="aiani8sqm" data-path="src/pages/FinancialTipsPage.tsx">
+        <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-0" data-id="74z2jgdyb" data-path="src/pages/FinancialTipsPage.tsx">
+          <CardContent className="p-8 text-center" data-id="fvab366sv" data-path="src/pages/FinancialTipsPage.tsx">
+            <h3 className="text-2xl font-bold text-gray-900 mb-2" data-id="hgpv9ill3" data-path="src/pages/FinancialTipsPage.tsx">Stay Updated</h3>
+            <p className="text-gray-600 mb-6" data-id="hukfy5lqh" data-path="src/pages/FinancialTipsPage.tsx">
               Get weekly financial tips and student money-saving strategies delivered to your inbox
             </p>
-            <div className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto" data-id="cunfx10c8" data-path="src/pages/FinancialTipsPage.tsx">
-              <Input placeholder="Enter your email" className="flex-1" data-id="43p33p7r5" data-path="src/pages/FinancialTipsPage.tsx" />
-              <Button className="bg-blue-600 hover:bg-blue-700" data-id="49acqerpp" data-path="src/pages/FinancialTipsPage.tsx">
+            <div className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto" data-id="dnmu43ic7" data-path="src/pages/FinancialTipsPage.tsx">
+              <Input placeholder="Enter your email" className="flex-1" data-id="rgu4zey11" data-path="src/pages/FinancialTipsPage.tsx" />
+              <Button className="bg-blue-600 hover:bg-blue-700" data-id="pwejqpvsf" data-path="src/pages/FinancialTipsPage.tsx">
                 Subscribe
               </Button>
             </div>
-            <p className="text-xs text-gray-500 mt-2" data-id="2w078vkgd" data-path="src/pages/FinancialTipsPage.tsx">
+            <p className="text-xs text-gray-500 mt-2" data-id="h7eq0b34g" data-path="src/pages/FinancialTipsPage.tsx">
               Free newsletter • No spam • Unsubscribe anytime
             </p>
           </CardContent>
         </Card>
 
         {/* Categories Overview */}
-        <Card data-id="je5a7bmxb" data-path="src/pages/FinancialTipsPage.tsx">
-          <CardHeader data-id="0q7a7wnbn" data-path="src/pages/FinancialTipsPage.tsx">
-            <CardTitle data-id="5n1k4fb4y" data-path="src/pages/FinancialTipsPage.tsx">Browse by Category</CardTitle>
-            <CardDescription data-id="3u3ybkr6y" data-path="src/pages/FinancialTipsPage.tsx">Explore financial topics that matter to you</CardDescription>
+        <Card data-id="gv3ud7qfq" data-path="src/pages/FinancialTipsPage.tsx">
+          <CardHeader data-id="swkozkevp" data-path="src/pages/FinancialTipsPage.tsx">
+            <CardTitle data-id="wia8b6frl" data-path="src/pages/FinancialTipsPage.tsx">Browse by Category</CardTitle>
+            <CardDescription data-id="rlt4v6a34" data-path="src/pages/FinancialTipsPage.tsx">Explore financial topics that matter to you</CardDescription>
           </CardHeader>
-          <CardContent data-id="rw39ark8l" data-path="src/pages/FinancialTipsPage.tsx">
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4" data-id="p2yndf7rj" data-path="src/pages/FinancialTipsPage.tsx">
+          <CardContent data-id="5o1ogwhso" data-path="src/pages/FinancialTipsPage.tsx">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4" data-id="ws8y7g6cy" data-path="src/pages/FinancialTipsPage.tsx">
               {categories.map((category) => {
                 const categoryTips = tips.filter((tip) => tip.category === category.name);
                 return (
@@ -432,14 +432,14 @@ const FinancialTipsPage = () => {
                     key={category.name}
                     variant="outline"
                     className="h-auto p-4 flex flex-col items-center gap-2"
-                    onClick={() => setSelectedCategory(category.name)} data-id="p00uy0nwd" data-path="src/pages/FinancialTipsPage.tsx">
+                    onClick={() => setSelectedCategory(category.name)} data-id="6skh2xked" data-path="src/pages/FinancialTipsPage.tsx">
 
-                    <div className={`p-2 rounded-full ${category.color.replace('text-', 'bg-').replace('-800', '-100')}`} data-id="me7zst2ps" data-path="src/pages/FinancialTipsPage.tsx">
+                    <div className={`p-2 rounded-full ${category.color.replace('text-', 'bg-').replace('-800', '-100')}`} data-id="a4wq40kjm" data-path="src/pages/FinancialTipsPage.tsx">
                       {category.icon}
                     </div>
-                    <div className="text-center" data-id="6ogt3k2wx" data-path="src/pages/FinancialTipsPage.tsx">
-                      <div className="font-medium text-sm" data-id="apbxnaifu" data-path="src/pages/FinancialTipsPage.tsx">{category.name}</div>
-                      <div className="text-xs text-gray-500" data-id="jqfonfkn0" data-path="src/pages/FinancialTipsPage.tsx">{categoryTips.length} articles</div>
+                    <div className="text-center" data-id="mcs1y5ts6" data-path="src/pages/FinancialTipsPage.tsx">
+                      <div className="font-medium text-sm" data-id="efo6r8vv3" data-path="src/pages/FinancialTipsPage.tsx">{category.name}</div>
+                      <div className="text-xs text-gray-500" data-id="nvbhjzgcm" data-path="src/pages/FinancialTipsPage.tsx">{categoryTips.length} articles</div>
                     </div>
                   </Button>);
 

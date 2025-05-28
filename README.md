@@ -26,7 +26,7 @@ A clean, modern React template with TypeScript, Vite, TailwindCSS, and ShadCN UI
 1. Clone this repository:
 ```bash
 git clone https://github.com/your-username/react-template-project.git
-cd react-template-project
+cd vivek's Budget Buddy
 ```
 
 2. Install dependencies:

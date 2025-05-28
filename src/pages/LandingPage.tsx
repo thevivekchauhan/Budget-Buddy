@@ -16,26 +16,34 @@ const LandingPage = () => {
   const handleAuth = async (isLogin: boolean, email: string, password: string, name?: string) => {
     setIsLoading(true);
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Mock authentication success
-      localStorage.setItem('user', JSON.stringify({
-        email,
-        name: name || email.split('@')[0],
-        id: Math.random().toString(36).substr(2, 9)
-      }));
-
-      toast({
-        title: isLogin ? "Welcome back!" : "Account created successfully!",
-        description: isLogin ? "You've been logged in." : "Welcome to Budget Buddy!"
-      });
+      if (isLogin) {
+        const { error } = await window.ezsite.apis.login({ email, password });
+        if (error) {
+          throw new Error(error);
+        }
+        toast({
+          title: "Welcome back!",
+          description: "You've been logged in successfully."
+        });
+      } else {
+        const { error } = await window.ezsite.apis.register({ email, password });
+        if (error) {
+          throw new Error(error);
+        }
+        toast({
+          title: "Account created successfully!",
+          description: "Please check your email for verification."
+        });
+        // Don't navigate immediately for signup, wait for email verification
+        return;
+      }
 
       navigate('/dashboard');
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Authentication error:', error);
       toast({
         title: "Error",
-        description: "Something went wrong. Please try again.",
+        description: error.message || "Something went wrong. Please try again.",
         variant: "destructive"
       });
     } finally {
@@ -49,6 +57,34 @@ const LandingPage = () => {
       email: '',
       password: ''
     });
+    const [showForgotPassword, setShowForgotPassword] = useState(false);
+    const [forgotEmail, setForgotEmail] = useState('');
+
+    const handleForgotPassword = async (e: React.FormEvent) => {
+      e.preventDefault();
+      setIsLoading(true);
+      try {
+        const { error } = await window.ezsite.apis.sendResetPwdEmail({ email: forgotEmail });
+        if (error) {
+          throw new Error(error);
+        }
+        toast({
+          title: "Reset Email Sent",
+          description: "Check your email for password reset instructions."
+        });
+        setShowForgotPassword(false);
+        setForgotEmail('');
+      } catch (error: any) {
+        console.error('Forgot password error:', error);
+        toast({
+          title: "Error",
+          description: error.message || "Failed to send reset email. Please try again.",
+          variant: "destructive"
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
@@ -56,77 +92,127 @@ const LandingPage = () => {
     };
 
     return (
-      <form onSubmit={handleSubmit} className="space-y-4" data-id="ko5gqfvh9" data-path="src/pages/LandingPage.tsx">
-        {!isLogin &&
-        <div className="space-y-2" data-id="3qut3haxo" data-path="src/pages/LandingPage.tsx">
-            <Label htmlFor="name" data-id="zq0tiayre" data-path="src/pages/LandingPage.tsx">Full Name</Label>
+      <div data-id="k7tbbh5o6" data-path="src/pages/LandingPage.tsx">
+        <form onSubmit={handleSubmit} className="space-y-4" data-id="cauug8x0l" data-path="src/pages/LandingPage.tsx">
+          {!isLogin &&
+          <div className="space-y-2" data-id="q76cjm8uo" data-path="src/pages/LandingPage.tsx">
+              <Label htmlFor="name" data-id="lwnyia12c" data-path="src/pages/LandingPage.tsx">Full Name</Label>
+              <Input
+              id="name"
+              type="text"
+              placeholder="Enter your full name"
+              value={formData.name}
+              onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+              required={!isLogin}
+              className="transition-all duration-200 focus:scale-105" data-id="62bgbvud7" data-path="src/pages/LandingPage.tsx" />
+
+            </div>
+          }
+          <div className="space-y-2" data-id="555jre46s" data-path="src/pages/LandingPage.tsx">
+            <Label htmlFor="email" data-id="6w0tlaos5" data-path="src/pages/LandingPage.tsx">Email</Label>
             <Input
-            id="name"
-            type="text"
-            placeholder="Enter your full name"
-            value={formData.name}
-            onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
-            required={!isLogin} data-id="gbphkyysc" data-path="src/pages/LandingPage.tsx" />
+              id="email"
+              type="email"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
+              required
+              className="transition-all duration-200 focus:scale-105" data-id="e192183qx" data-path="src/pages/LandingPage.tsx" />
 
           </div>
+          <div className="space-y-2" data-id="d7jlq88oa" data-path="src/pages/LandingPage.tsx">
+            <Label htmlFor="password" data-id="qyvdnh5qn" data-path="src/pages/LandingPage.tsx">Password</Label>
+            <Input
+              id="password"
+              type="password"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={(e) => setFormData((prev) => ({ ...prev, password: e.target.value }))}
+              required
+              className="transition-all duration-200 focus:scale-105" data-id="owddx0mdf" data-path="src/pages/LandingPage.tsx" />
+
+          </div>
+          <Button type="submit" className="w-full" disabled={isLoading} data-id="nbp6cgg7q" data-path="src/pages/LandingPage.tsx">
+            {isLoading ? 'Please wait...' : isLogin ? 'Sign In' : 'Create Account'}
+          </Button>
+          
+          {isLogin &&
+          <div className="mt-4 text-center" data-id="02gaefp63" data-path="src/pages/LandingPage.tsx">
+              <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowForgotPassword(true)}
+              className="text-blue-600 hover:text-blue-700" data-id="twef3dfnq" data-path="src/pages/LandingPage.tsx">
+
+                Forgot password?
+              </Button>
+            </div>
+          }
+        </form>
+        
+        {showForgotPassword &&
+        <div className="mt-4 p-4 border rounded-lg bg-blue-50" data-id="0m838z8jk" data-path="src/pages/LandingPage.tsx">
+            <h4 className="font-medium mb-2" data-id="a3wdn1nhp" data-path="src/pages/LandingPage.tsx">Reset Password</h4>
+            <form onSubmit={handleForgotPassword} className="space-y-3" data-id="m3dg6zk63" data-path="src/pages/LandingPage.tsx">
+              <Input
+              type="email"
+              placeholder="Enter your email"
+              value={forgotEmail}
+              onChange={(e) => setForgotEmail(e.target.value)}
+              required data-id="xcclfg6ur" data-path="src/pages/LandingPage.tsx" />
+
+              <div className="flex gap-2" data-id="mucjm4fmg" data-path="src/pages/LandingPage.tsx">
+                <Button type="submit" size="sm" disabled={isLoading} data-id="nyif4xe6w" data-path="src/pages/LandingPage.tsx">
+                  {isLoading ? 'Sending...' : 'Send Reset Email'}
+                </Button>
+                <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setShowForgotPassword(false);
+                  setForgotEmail('');
+                }} data-id="rzatk7nks" data-path="src/pages/LandingPage.tsx">
+
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </div>
         }
-        <div className="space-y-2" data-id="77kccwk6r" data-path="src/pages/LandingPage.tsx">
-          <Label htmlFor="email" data-id="80vxru3fi" data-path="src/pages/LandingPage.tsx">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="Enter your email"
-            value={formData.email}
-            onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
-            required data-id="xzldyix8q" data-path="src/pages/LandingPage.tsx" />
-
-        </div>
-        <div className="space-y-2" data-id="rc73my74b" data-path="src/pages/LandingPage.tsx">
-          <Label htmlFor="password" data-id="edv4fzmd9" data-path="src/pages/LandingPage.tsx">Password</Label>
-          <Input
-            id="password"
-            type="password"
-            placeholder="Enter your password"
-            value={formData.password}
-            onChange={(e) => setFormData((prev) => ({ ...prev, password: e.target.value }))}
-            required data-id="zrf1xciam" data-path="src/pages/LandingPage.tsx" />
-
-        </div>
-        <Button type="submit" className="w-full" disabled={isLoading} data-id="30kfluhof" data-path="src/pages/LandingPage.tsx">
-          {isLoading ? 'Please wait...' : isLogin ? 'Sign In' : 'Create Account'}
-        </Button>
-      </form>);
+      </div>);
 
   };
 
   const features = [
   {
-    icon: <Wallet className="h-8 w-8 text-blue-600" data-id="ca4q0tp1s" data-path="src/pages/LandingPage.tsx" />,
+    icon: <Wallet className="h-8 w-8 text-blue-600" data-id="swpokdvx5" data-path="src/pages/LandingPage.tsx" />,
     title: "Expense Tracking",
     description: "Track every rupee you spend with smart categorization and insights"
   },
   {
-    icon: <TrendingUp className="h-8 w-8 text-green-600" data-id="3h17fot0u" data-path="src/pages/LandingPage.tsx" />,
+    icon: <TrendingUp className="h-8 w-8 text-green-600" data-id="r5xff9gil" data-path="src/pages/LandingPage.tsx" />,
     title: "Income Management",
     description: "Monitor pocket money, stipends, and part-time income in one place"
   },
   {
-    icon: <Target className="h-8 w-8 text-purple-600" data-id="ztlcruieh" data-path="src/pages/LandingPage.tsx" />,
+    icon: <Target className="h-8 w-8 text-purple-600" data-id="gma7to66b" data-path="src/pages/LandingPage.tsx" />,
     title: "Budget Planning",
     description: "Set monthly budgets and track spending against your limits"
   },
   {
-    icon: <Bell className="h-8 w-8 text-orange-600" data-id="eupdpejpb" data-path="src/pages/LandingPage.tsx" />,
+    icon: <Bell className="h-8 w-8 text-orange-600" data-id="55jjbtjrd" data-path="src/pages/LandingPage.tsx" />,
     title: "Bill Reminders",
     description: "Never miss rent, subscriptions, or other recurring payments"
   },
   {
-    icon: <PiggyBank className="h-8 w-8 text-pink-600" data-id="hihoshf2j" data-path="src/pages/LandingPage.tsx" />,
+    icon: <PiggyBank className="h-8 w-8 text-pink-600" data-id="3mx8u04oy" data-path="src/pages/LandingPage.tsx" />,
     title: "Savings Goals",
     description: "Set and track progress towards your financial goals"
   },
   {
-    icon: <BookOpen className="h-8 w-8 text-indigo-600" data-id="ihrywhvzr" data-path="src/pages/LandingPage.tsx" />,
+    icon: <BookOpen className="h-8 w-8 text-indigo-600" data-id="f6b4mfnt5" data-path="src/pages/LandingPage.tsx" />,
     title: "Financial Tips",
     description: "Learn money management with student-friendly financial advice"
   }];
@@ -156,63 +242,78 @@ const LandingPage = () => {
   return (
     <div
       className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50"
-      data-id="80280velf"
+      data-id="1ova9ta4x"
       data-path="src/pages/LandingPage.tsx"
     >
       {/* Header */}
       <header
         className="sticky top-0 z-50 border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60"
-        data-id="w8x6tqp3x"
+        data-id="h9xwbyyx3"
         data-path="src/pages/LandingPage.tsx"
       >
         <div
-          className="container mx-auto px-4 py-4 flex justify-between items-center"
-          data-id="i7izobp8p"
+          className="container mx-auto px-4 py-3 md:py-4 flex justify-between items-center"
+          data-id="tjqt8g4ry"
           data-path="src/pages/LandingPage.tsx"
         >
           <div
             className="flex items-center space-x-2"
-            data-id="3dl8ff3mg"
+            data-id="a0oflnx5y"
             data-path="src/pages/LandingPage.tsx"
           >
             <PiggyBank
-              className="h-8 w-8 text-blue-600"
-              data-id="w491tmxyw"
+              className="h-6 w-6 md:h-8 md:w-8 text-blue-600"
+              data-id="anvspglk5"
               data-path="src/pages/LandingPage.tsx"
             />
             <span
-              className="text-xl font-bold text-gray-800"
-              data-id="vayyrzpn4"
+              className="text-lg md:text-xl font-bold text-gray-800"
+              data-id="oiur7xg1p"
               data-path="src/pages/LandingPage.tsx"
             >
-            Budget Buddy
+              Budget Buddy
             </span>
           </div>
           <div
-            className="flex items-center space-x-4"
-            data-id="jskqpc2da"
+            className="flex items-center space-x-2 md:space-x-4"
+            data-id="j6a2vyj64"
             data-path="src/pages/LandingPage.tsx"
           >
             <Button
               variant="ghost"
+              size="sm"
               onClick={() =>
                 document
                   .getElementById("features")
                   ?.scrollIntoView({ behavior: "smooth" })
               }
-              data-id="4955poj3s"
+              data-id="wwf3ntvn2"
               data-path="src/pages/LandingPage.tsx"
             >
-              Features
+              <span
+                className="hidden sm:inline"
+                data-id="s269j2orf"
+                data-path="src/pages/LandingPage.tsx"
+              >
+                Features
+              </span>
+              <span
+                className="sm:hidden"
+                data-id="i8kmgvahm"
+                data-path="src/pages/LandingPage.tsx"
+              >
+                Info
+              </span>
             </Button>
             <Button
               variant="ghost"
+              size="sm"
               onClick={() =>
                 document
                   .getElementById("auth")
                   ?.scrollIntoView({ behavior: "smooth" })
               }
-              data-id="dxtbaz7iz"
+              data-id="3zp0wwdck"
               data-path="src/pages/LandingPage.tsx"
             >
               Login
@@ -224,50 +325,59 @@ const LandingPage = () => {
       {/* Hero Section */}
       <section
         className="py-20 px-4"
-        data-id="kgdhkba8c"
+        data-id="wldpnqsy7"
         data-path="src/pages/LandingPage.tsx"
       >
         <div
           className="container mx-auto text-center max-w-4xl"
-          data-id="2vq1lfh08"
+          data-id="xdv1tbdx8"
           data-path="src/pages/LandingPage.tsx"
         >
           <Badge
             variant="secondary"
             className="mb-6"
-            data-id="8mzrqd0xm"
+            data-id="3epm6ofkt"
             data-path="src/pages/LandingPage.tsx"
           >
-            Made for budget management, by Vivek Chauhan
+            Made for Track expenses, by Vivek Chauhan
           </Badge>
           <h1
-            className="text-5xl md:text-6xl font-bold text-gray-800 mb-6 leading-tight"
-            data-id="95zqn323q"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-6 leading-tight"
+            data-id="kgkzk90yz"
             data-path="src/pages/LandingPage.tsx"
           >
             Master Your
             <span
-              className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
-              data-id="l5ysrs3td"
+              className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent"
+              data-id="1vuoa8rf8"
               data-path="src/pages/LandingPage.tsx"
             >
               {" "}
               Money
             </span>
-            <br data-id="x36ou5pef" data-path="src/pages/LandingPage.tsx" />
-            {/* As a Student */}
+            <br data-id="53pb2fyeh" data-path="src/pages/LandingPage.tsx" />
+            As a
+            <span
+              className="bg-gradient-to-r from-green-600 to-violet-600 bg-clip-text text-transparent"
+              data-id="1vuoa8rf8"
+              data-path="src/pages/LandingPage.tsx"
+            >
+              {" "}
+              Vivek's User
+            </span>
           </h1>
           <p
-            className="text-xl text-gray-600 mb-8 leading-relaxed"
-            data-id="q74gch6tx"
+            className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed"
+            data-id="z1mtq8n2k"
             data-path="src/pages/LandingPage.tsx"
           >
             Track expenses, plan budgets, and achieve your financial goals with
-            the most comprehensive budget management app designed by Vivek Chauhan from India.
+            the most comprehensive budget management app designed specifically
+            for students in India.
           </p>
           <div
             className="flex flex-col sm:flex-row gap-4 justify-center"
-            data-id="c2miwpfvo"
+            data-id="uteo22b92"
             data-path="src/pages/LandingPage.tsx"
           >
             <Button
@@ -278,7 +388,7 @@ const LandingPage = () => {
                   .getElementById("auth")
                   ?.scrollIntoView({ behavior: "smooth" })
               }
-              data-id="pmhoi1z5k"
+              data-id="1gjruea0p"
               data-path="src/pages/LandingPage.tsx"
             >
               Get Started Free
@@ -291,7 +401,7 @@ const LandingPage = () => {
                   .getElementById("features")
                   ?.scrollIntoView({ behavior: "smooth" })
               }
-              data-id="anx6x5r8o"
+              data-id="j7zvkxfav"
               data-path="src/pages/LandingPage.tsx"
             >
               Learn More
@@ -300,25 +410,25 @@ const LandingPage = () => {
 
           {/* Stats */}
           <div
-            className="grid grid-cols-3 gap-8 mt-16 pt-8 border-t"
-            data-id="vfzea1j8b"
+            className="grid grid-cols-3 gap-4 md:gap-8 mt-12 md:mt-16 pt-6 md:pt-8 border-t"
+            data-id="4wdhxqqiz"
             data-path="src/pages/LandingPage.tsx"
           >
             <div
               className="text-center"
-              data-id="9czj5g4bu"
+              data-id="0sljqnvbn"
               data-path="src/pages/LandingPage.tsx"
             >
               <div
-                className="text-3xl font-bold text-blue-600"
-                data-id="v55mocr0b"
+                className="text-2xl md:text-3xl font-bold text-blue-600"
+                data-id="6mse9146x"
                 data-path="src/pages/LandingPage.tsx"
               >
                 10K+
               </div>
               <div
-                className="text-gray-600"
-                data-id="1x4tyws3t"
+                className="text-sm md:text-base text-gray-600"
+                data-id="ppab1ezwm"
                 data-path="src/pages/LandingPage.tsx"
               >
                 Students
@@ -326,19 +436,19 @@ const LandingPage = () => {
             </div>
             <div
               className="text-center"
-              data-id="b1ewu2lri"
+              data-id="xm99cyyps"
               data-path="src/pages/LandingPage.tsx"
             >
               <div
-                className="text-3xl font-bold text-green-600"
-                data-id="enxdpxd81"
+                className="text-2xl md:text-3xl font-bold text-green-600"
+                data-id="xhnhvp3ej"
                 data-path="src/pages/LandingPage.tsx"
               >
                 ₹50L+
               </div>
               <div
-                className="text-gray-600"
-                data-id="zvlrjmrnd"
+                className="text-sm md:text-base text-gray-600"
+                data-id="sdokznjwq"
                 data-path="src/pages/LandingPage.tsx"
               >
                 Money Saved
@@ -346,19 +456,19 @@ const LandingPage = () => {
             </div>
             <div
               className="text-center"
-              data-id="wzqzgrk84"
+              data-id="yzacqnwqq"
               data-path="src/pages/LandingPage.tsx"
             >
               <div
-                className="text-3xl font-bold text-purple-600"
-                data-id="zpjoi221b"
+                className="text-2xl md:text-3xl font-bold text-purple-600"
+                data-id="pp0rfoue3"
                 data-path="src/pages/LandingPage.tsx"
               >
                 4.9★
               </div>
               <div
-                className="text-gray-600"
-                data-id="yxwy47ta3"
+                className="text-sm md:text-base text-gray-600"
+                data-id="ebxdza8zd"
                 data-path="src/pages/LandingPage.tsx"
               >
                 Rating
@@ -372,29 +482,29 @@ const LandingPage = () => {
       <section
         id="features"
         className="py-20 px-4 bg-white"
-        data-id="n02z5tjln"
+        data-id="chjeev1st"
         data-path="src/pages/LandingPage.tsx"
       >
         <div
           className="container mx-auto max-w-6xl"
-          data-id="77avb6ww3"
+          data-id="9aj8apj9t"
           data-path="src/pages/LandingPage.tsx"
         >
           <div
             className="text-center mb-16"
-            data-id="928j8e5qc"
+            data-id="k03ipbyok"
             data-path="src/pages/LandingPage.tsx"
           >
             <h2
               className="text-4xl font-bold text-gray-800 mb-4"
-              data-id="i4aggmhxf"
+              data-id="81tcmf1o1"
               data-path="src/pages/LandingPage.tsx"
             >
               Everything You Need to Manage Money
             </h2>
             <p
               className="text-xl text-gray-600"
-              data-id="emor07jmd"
+              data-id="st7zflkre"
               data-path="src/pages/LandingPage.tsx"
             >
               Powerful features designed specifically for student life
@@ -402,43 +512,44 @@ const LandingPage = () => {
           </div>
 
           <div
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-            data-id="jqv2rmxae"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+            data-id="s8h626vnb"
             data-path="src/pages/LandingPage.tsx"
           >
             {features.map((feature, index) => (
               <Card
                 key={index}
                 className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                data-id="0ac538zz1"
+                data-id="qujrz88dx"
                 data-path="src/pages/LandingPage.tsx"
               >
                 <CardHeader
-                  data-id="o1yofkd68"
+                  className="pb-4"
+                  data-id="zt74d3e67"
                   data-path="src/pages/LandingPage.tsx"
                 >
                   <div
-                    className="mb-4"
-                    data-id="xiwpfeyd1"
+                    className="mb-3 md:mb-4"
+                    data-id="brlj78hky"
                     data-path="src/pages/LandingPage.tsx"
                   >
                     {feature.icon}
                   </div>
                   <CardTitle
-                    className="text-xl"
-                    data-id="j3dnwwy9e"
+                    className="text-lg md:text-xl"
+                    data-id="a1ocnm0r8"
                     data-path="src/pages/LandingPage.tsx"
                   >
                     {feature.title}
                   </CardTitle>
                 </CardHeader>
                 <CardContent
-                  data-id="jy9lae81w"
+                  data-id="71sm0c9nj"
                   data-path="src/pages/LandingPage.tsx"
                 >
                   <CardDescription
-                    className="text-base"
-                    data-id="e401n9he7"
+                    className="text-sm md:text-base"
+                    data-id="f4r6wpa2m"
                     data-path="src/pages/LandingPage.tsx"
                   >
                     {feature.description}
@@ -453,29 +564,29 @@ const LandingPage = () => {
       {/* Why Choose Us */}
       <section
         className="py-20 px-4 bg-gray-50"
-        data-id="2vpult8gg"
+        data-id="qn640vohn"
         data-path="src/pages/LandingPage.tsx"
       >
         <div
           className="container mx-auto max-w-6xl"
-          data-id="yyxj4eqbc"
+          data-id="6ioe11ny6"
           data-path="src/pages/LandingPage.tsx"
         >
           <div
             className="text-center mb-16"
-            data-id="e19zhn6v6"
+            data-id="nd8ybgt13"
             data-path="src/pages/LandingPage.tsx"
           >
             <h2
               className="text-4xl font-bold text-gray-800 mb-4"
-              data-id="bl972ka6j"
+              data-id="sma11gjor"
               data-path="src/pages/LandingPage.tsx"
             >
               Why Students Love Us
             </h2>
             <p
               className="text-xl text-gray-600"
-              data-id="5hgcubnof"
+              data-id="fz2479k62"
               data-path="src/pages/LandingPage.tsx"
             >
               Built with student needs in mind
@@ -484,35 +595,35 @@ const LandingPage = () => {
 
           <div
             className="grid md:grid-cols-3 gap-8"
-            data-id="3k6u2a1x9"
+            data-id="i04c0rnrj"
             data-path="src/pages/LandingPage.tsx"
           >
             <div
               className="text-center"
-              data-id="w9uxp0363"
+              data-id="nda4e5h4h"
               data-path="src/pages/LandingPage.tsx"
             >
               <div
                 className="bg-blue-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center"
-                data-id="uog189mf0"
+                data-id="yahing2a"
                 data-path="src/pages/LandingPage.tsx"
               >
                 <Shield
                   className="h-8 w-8 text-blue-600"
-                  data-id="h1l3r21ay"
+                  data-id="jbq8jeexl"
                   data-path="src/pages/LandingPage.tsx"
                 />
               </div>
               <h3
                 className="text-xl font-semibold mb-2"
-                data-id="t2tafy5cy"
+                data-id="767jhmobu"
                 data-path="src/pages/LandingPage.tsx"
               >
                 Secure & Private
               </h3>
               <p
                 className="text-gray-600"
-                data-id="pug5v3knq"
+                data-id="nc7ez71vs"
                 data-path="src/pages/LandingPage.tsx"
               >
                 Your financial data is encrypted and secure. We never share your
@@ -521,30 +632,30 @@ const LandingPage = () => {
             </div>
             <div
               className="text-center"
-              data-id="xul55g1ex"
+              data-id="10822a1b3"
               data-path="src/pages/LandingPage.tsx"
             >
               <div
                 className="bg-green-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center"
-                data-id="45opgzfok"
+                data-id="goiydet41"
                 data-path="src/pages/LandingPage.tsx"
               >
                 <Smartphone
                   className="h-8 w-8 text-green-600"
-                  data-id="i9laaz1ku"
+                  data-id="c9yeg6inq"
                   data-path="src/pages/LandingPage.tsx"
                 />
               </div>
               <h3
                 className="text-xl font-semibold mb-2"
-                data-id="novqisct7"
+                data-id="5rbqv0z7i"
                 data-path="src/pages/LandingPage.tsx"
               >
                 Mobile First
               </h3>
               <p
                 className="text-gray-600"
-                data-id="pytak24dp"
+                data-id="vk3s79pkn"
                 data-path="src/pages/LandingPage.tsx"
               >
                 Optimized for mobile devices so you can track expenses on the
@@ -553,30 +664,30 @@ const LandingPage = () => {
             </div>
             <div
               className="text-center"
-              data-id="9mj4su685"
+              data-id="u98xt5pkp"
               data-path="src/pages/LandingPage.tsx"
             >
               <div
                 className="bg-purple-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center"
-                data-id="jd5e4vf7q"
+                data-id="089pxj2jx"
                 data-path="src/pages/LandingPage.tsx"
               >
                 <Users
                   className="h-8 w-8 text-purple-600"
-                  data-id="w8i3664jm"
+                  data-id="cg2fv490i"
                   data-path="src/pages/LandingPage.tsx"
                 />
               </div>
               <h3
                 className="text-xl font-semibold mb-2"
-                data-id="yq6fxxun0"
+                data-id="j6lw8tpb0"
                 data-path="src/pages/LandingPage.tsx"
               >
                 Student Community
               </h3>
               <p
                 className="text-gray-600"
-                data-id="ydx02u0r4"
+                data-id="2cm6u41xe"
                 data-path="src/pages/LandingPage.tsx"
               >
                 Join thousands of students who are mastering their finances
@@ -590,29 +701,29 @@ const LandingPage = () => {
       {/* Testimonials */}
       <section
         className="py-20 px-4 bg-white"
-        data-id="jerj3zoun"
+        data-id="upbax5djd"
         data-path="src/pages/LandingPage.tsx"
       >
         <div
           className="container mx-auto max-w-6xl"
-          data-id="zsdydg547"
+          data-id="x2dh135r7"
           data-path="src/pages/LandingPage.tsx"
         >
           <div
             className="text-center mb-16"
-            data-id="yudogrn97"
+            data-id="5hfxtpivr"
             data-path="src/pages/LandingPage.tsx"
           >
             <h2
               className="text-4xl font-bold text-gray-800 mb-4"
-              data-id="l041r4p8w"
+              data-id="hgfuy365p"
               data-path="src/pages/LandingPage.tsx"
             >
-              What Users Say
+              What Students Say
             </h2>
             <p
               className="text-xl text-gray-600"
-              data-id="9pni4mgfr"
+              data-id="eh1qoglmo"
               data-path="src/pages/LandingPage.tsx"
             >
               Real feedback from real users
@@ -621,56 +732,56 @@ const LandingPage = () => {
 
           <div
             className="grid md:grid-cols-3 gap-8"
-            data-id="4pa98j60g"
+            data-id="gr88n4vw4"
             data-path="src/pages/LandingPage.tsx"
           >
             {testimonials.map((testimonial, index) => (
               <Card
                 key={index}
                 className="border-0 shadow-lg"
-                data-id="v5gelx4kv"
+                data-id="iypcg1ygg"
                 data-path="src/pages/LandingPage.tsx"
               >
                 <CardContent
                   className="pt-6"
-                  data-id="7lrog80xj"
+                  data-id="p913lvm6u"
                   data-path="src/pages/LandingPage.tsx"
                 >
                   <div
                     className="flex mb-4"
-                    data-id="k9mr3wle4"
+                    data-id="2btwd7oiy"
                     data-path="src/pages/LandingPage.tsx"
                   >
                     {[...Array(testimonial.rating)].map((_, i) => (
                       <Star
                         key={i}
                         className="h-5 w-5 text-yellow-400 fill-current"
-                        data-id="jbm58jr9h"
+                        data-id="4zro2mwiv"
                         data-path="src/pages/LandingPage.tsx"
                       />
                     ))}
                   </div>
                   <p
                     className="text-gray-600 mb-4 italic"
-                    data-id="25z2e6vgy"
+                    data-id="0vgt8k6qo"
                     data-path="src/pages/LandingPage.tsx"
                   >
                     "{testimonial.content}"
                   </p>
                   <div
-                    data-id="cqo4819cp"
+                    data-id="1ozxzuik4"
                     data-path="src/pages/LandingPage.tsx"
                   >
                     <div
                       className="font-semibold"
-                      data-id="1c3erupq6"
+                      data-id="r25aantww"
                       data-path="src/pages/LandingPage.tsx"
                     >
                       {testimonial.name}
                     </div>
                     <div
                       className="text-sm text-gray-500"
-                      data-id="owusja775"
+                      data-id="i8r7nqtnq"
                       data-path="src/pages/LandingPage.tsx"
                     >
                       {testimonial.role}
@@ -687,63 +798,63 @@ const LandingPage = () => {
       <section
         id="auth"
         className="py-20 px-4 bg-gradient-to-r from-blue-600 to-purple-600"
-        data-id="mhnhitaf3"
+        data-id="l2m697y31"
         data-path="src/pages/LandingPage.tsx"
       >
         <div
           className="container mx-auto max-w-md"
-          data-id="ads7g7vj9"
+          data-id="66os5qwws"
           data-path="src/pages/LandingPage.tsx"
         >
           <Card
             className="shadow-2xl"
-            data-id="gfwvccz6a"
+            data-id="jwdn6wofs"
             data-path="src/pages/LandingPage.tsx"
           >
             <CardHeader
               className="text-center"
-              data-id="7hzxgxmlw"
+              data-id="xpgw7xdy4"
               data-path="src/pages/LandingPage.tsx"
             >
               <CardTitle
                 className="text-2xl"
-                data-id="9i2nf4w1p"
+                data-id="azgjhlktw"
                 data-path="src/pages/LandingPage.tsx"
               >
                 Join Budget Buddy
               </CardTitle>
               <CardDescription
-                data-id="eyqz4ldal"
+                data-id="p88levapv"
                 data-path="src/pages/LandingPage.tsx"
               >
                 Start managing your money like a pro
               </CardDescription>
             </CardHeader>
             <CardContent
-              data-id="p60a9b6jm"
+              data-id="hna4b3qv2"
               data-path="src/pages/LandingPage.tsx"
             >
               <Tabs
                 defaultValue="signup"
                 className="w-full"
-                data-id="58n6qt7ot"
+                data-id="k0s0fk533"
                 data-path="src/pages/LandingPage.tsx"
               >
                 <TabsList
                   className="grid w-full grid-cols-2"
-                  data-id="8es4x38yo"
+                  data-id="584y68ixu"
                   data-path="src/pages/LandingPage.tsx"
                 >
                   <TabsTrigger
                     value="signup"
-                    data-id="ilzogrwl5"
+                    data-id="6dajgv607"
                     data-path="src/pages/LandingPage.tsx"
                   >
                     Sign Up
                   </TabsTrigger>
                   <TabsTrigger
                     value="login"
-                    data-id="hv7s5oiqy"
+                    data-id="muy3npywr"
                     data-path="src/pages/LandingPage.tsx"
                   >
                     Log In
@@ -752,24 +863,24 @@ const LandingPage = () => {
                 <TabsContent
                   value="signup"
                   className="mt-6"
-                  data-id="dstqcebtg"
+                  data-id="hwuzss905"
                   data-path="src/pages/LandingPage.tsx"
                 >
                   <AuthForm
                     isLogin={false}
-                    data-id="pn23e70pt"
+                    data-id="ihs29gc0l"
                     data-path="src/pages/LandingPage.tsx"
                   />
                 </TabsContent>
                 <TabsContent
                   value="login"
                   className="mt-6"
-                  data-id="rpcr2opph"
+                  data-id="0chu3qfzn"
                   data-path="src/pages/LandingPage.tsx"
                 >
                   <AuthForm
                     isLogin={true}
-                    data-id="ify43k715"
+                    data-id="yjpk5byth"
                     data-path="src/pages/LandingPage.tsx"
                   />
                 </TabsContent>
@@ -782,33 +893,33 @@ const LandingPage = () => {
       {/* Footer */}
       <footer
         className="bg-gray-800 text-white py-12 px-4"
-        data-id="g1h9cx4c4"
+        data-id="dko8mj6v0"
         data-path="src/pages/LandingPage.tsx"
       >
         <div
           className="container mx-auto max-w-6xl"
-          data-id="ipxmlks09"
+          data-id="bv62cshun"
           data-path="src/pages/LandingPage.tsx"
         >
           <div
             className="grid md:grid-cols-4 gap-8"
-            data-id="yhfm8o2zp"
+            data-id="g3k37m8hn"
             data-path="src/pages/LandingPage.tsx"
           >
-            <div data-id="e083ut063" data-path="src/pages/LandingPage.tsx">
+            <div data-id="qozrfl7mb" data-path="src/pages/LandingPage.tsx">
               <div
                 className="flex items-center space-x-2 mb-4"
-                data-id="ey3cccsfq"
+                data-id="tcca3w16w"
                 data-path="src/pages/LandingPage.tsx"
               >
                 <PiggyBank
                   className="h-6 w-6"
-                  data-id="iuioq0yub"
+                  data-id="a5e9qmcqy"
                   data-path="src/pages/LandingPage.tsx"
                 />
                 <span
                   className="font-bold"
-                  data-id="g5fmf7h0m"
+                  data-id="mb42xs7k9"
                   data-path="src/pages/LandingPage.tsx"
                 >
                   Budget Buddy
@@ -816,86 +927,86 @@ const LandingPage = () => {
               </div>
               <p
                 className="text-gray-400"
-                data-id="bo7fk49ip"
+                data-id="bn2shb7qm"
                 data-path="src/pages/LandingPage.tsx"
               >
                 Empowering students to take control of their financial future.
               </p>
             </div>
-            <div data-id="1n4fnl5qe" data-path="src/pages/LandingPage.tsx">
+            <div data-id="w6ilv9z6f" data-path="src/pages/LandingPage.tsx">
               <h3
                 className="font-semibold mb-4"
-                data-id="8dn9lot60"
+                data-id="gjiku2zvj"
                 data-path="src/pages/LandingPage.tsx"
               >
                 Features
               </h3>
               <ul
                 className="space-y-2 text-gray-400"
-                data-id="8f0fj3j9e"
+                data-id="l2ae0kbdw"
                 data-path="src/pages/LandingPage.tsx"
               >
-                <li data-id="1bu9jccvb" data-path="src/pages/LandingPage.tsx">
+                <li data-id="i17mg2per" data-path="src/pages/LandingPage.tsx">
                   Expense Tracking
                 </li>
-                <li data-id="i2ycggmp5" data-path="src/pages/LandingPage.tsx">
+                <li data-id="46y2g5s6l" data-path="src/pages/LandingPage.tsx">
                   Budget Planning
                 </li>
-                <li data-id="ivozc8tva" data-path="src/pages/LandingPage.tsx">
+                <li data-id="ouigrqg2v" data-path="src/pages/LandingPage.tsx">
                   Savings Goals
                 </li>
-                <li data-id="t9mmvxer1" data-path="src/pages/LandingPage.tsx">
+                <li data-id="f6ex9j6gn" data-path="src/pages/LandingPage.tsx">
                   Bill Reminders
                 </li>
               </ul>
             </div>
-            <div data-id="n7v5zydh9" data-path="src/pages/LandingPage.tsx">
+            <div data-id="n8c1lc7am" data-path="src/pages/LandingPage.tsx">
               <h3
                 className="font-semibold mb-4"
-                data-id="z41d6ubxv"
+                data-id="0u3acdwji"
                 data-path="src/pages/LandingPage.tsx"
               >
                 Resources
               </h3>
               <ul
                 className="space-y-2 text-gray-400"
-                data-id="sn1itl51i"
+                data-id="lnj1pd1xk"
                 data-path="src/pages/LandingPage.tsx"
               >
-                <li data-id="2ywzwvzp5" data-path="src/pages/LandingPage.tsx">
+                <li data-id="km9ce5odl" data-path="src/pages/LandingPage.tsx">
                   Financial Tips
                 </li>
-                <li data-id="nea3h9nqi" data-path="src/pages/LandingPage.tsx">
+                <li data-id="mwgr9zam3" data-path="src/pages/LandingPage.tsx">
                   Student Guides
                 </li>
-                <li data-id="dy1stnagy" data-path="src/pages/LandingPage.tsx">
+                <li data-id="hmhyq45ye" data-path="src/pages/LandingPage.tsx">
                   Help Center
                 </li>
-                <li data-id="acn87s3el" data-path="src/pages/LandingPage.tsx">
+                <li data-id="r0hzjzc1v" data-path="src/pages/LandingPage.tsx">
                   Community
                 </li>
               </ul>
             </div>
-            <div data-id="ptghqklvs" data-path="src/pages/LandingPage.tsx">
+            <div data-id="hbr7pt1e9" data-path="src/pages/LandingPage.tsx">
               <h3
                 className="font-semibold mb-4"
-                data-id="e6yw7wbdh"
+                data-id="9qmbb5fd7"
                 data-path="src/pages/LandingPage.tsx"
               >
                 Contact
               </h3>
               <ul
                 className="space-y-2 text-gray-400"
-                data-id="m9qi6ih4k"
+                data-id="hw4nsk5zy"
                 data-path="src/pages/LandingPage.tsx"
               >
-                <li data-id="y1fluvqnj" data-path="src/pages/LandingPage.tsx">
-                  support@studentbudgetbuddy.com
+                <li data-id="nedb8k65b" data-path="src/pages/LandingPage.tsx">
+                  thechauhanvivek@gmail.com
                 </li>
-                <li data-id="l8mkvgabi" data-path="src/pages/LandingPage.tsx">
-                  +91 99999 99999
+                <li data-id="0a81pr6q5" data-path="src/pages/LandingPage.tsx">
+                  +91 9876543210
                 </li>
-                <li data-id="at73qemzh" data-path="src/pages/LandingPage.tsx">
+                <li data-id="fxmqgk7qv" data-path="src/pages/LandingPage.tsx">
                   Ahmedabad, India
                 </li>
               </ul>
@@ -903,11 +1014,11 @@ const LandingPage = () => {
           </div>
           <div
             className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400"
-            data-id="uulxeqfv2"
+            data-id="q7va8jlju"
             data-path="src/pages/LandingPage.tsx"
           >
-            <p data-id="pl95nf5se" data-path="src/pages/LandingPage.tsx">
-              © {new Date().getFullYear()} VivekChauhan All rights
+            <p data-id="7gzb6bev3" data-path="src/pages/LandingPage.tsx">
+              © {new Date().getFullYear()} Vivek Chauhan All rights
               reserved.
             </p>
           </div>
