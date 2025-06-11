@@ -16,7 +16,6 @@ A clean, modern React template with TypeScript, Vite, TailwindCSS, and ShadCN UI
 
 ## Getting Started
 
-### Prerequisites
 
 
 
