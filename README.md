@@ -80,5 +80,5 @@ react-template-project/
 
 ```bash
 npm run build
-# or
+
 
