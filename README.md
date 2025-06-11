@@ -36,7 +36,7 @@ npm install
 yarn
 # or
 pnpm install
-```
+
 
 
 
