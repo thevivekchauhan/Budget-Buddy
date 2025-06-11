@@ -83,6 +83,4 @@ npm run build
 # or
 yarn build
 # or
-pnpm build
-```
 
