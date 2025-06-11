@@ -82,5 +82,4 @@ react-template-project/
 npm run build
 # or
 yarn build
-# or
 
