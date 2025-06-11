@@ -33,7 +33,6 @@ cd vivek's Budget Buddy
 ```bash
 npm install
 # or
-yarn
 
 
 
