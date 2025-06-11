@@ -34,7 +34,6 @@ cd vivek's Budget Buddy
 npm install
 # or
 yarn
-# or
 
 
 
