@@ -76,7 +76,6 @@ react-template-project/
 - **Pages**: Create new pages in the `src/pages` directory
 - **Routing**: Update routes in `src/App.tsx`
 
-## Building for Production
 
 
 
