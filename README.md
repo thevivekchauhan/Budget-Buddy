@@ -19,7 +19,6 @@ A clean, modern React template with TypeScript, Vite, TailwindCSS, and ShadCN UI
 ### Prerequisites
 
 - Node.js 18+ 
-- npm or yarn or pnpm
 
 
 
