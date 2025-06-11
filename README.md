@@ -40,8 +40,7 @@ pnpm install
 
 3. Start the development server:
 ```bash
-npm run dev
-# or
+npm run de
 
 
 
