@@ -34,7 +34,6 @@ A clean, modern React template with TypeScript, Vite, TailwindCSS, and ShadCN UI
 
 
 
-4. Open your browser and visit `http://localhost:5173`
 
 ## Project Structure
 
