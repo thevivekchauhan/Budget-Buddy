@@ -14,7 +14,7 @@ A clean, modern React template with TypeScript, Vite, TailwindCSS, and ShadCN UI
 - 🔄 **React Query** - Data fetching and state management
 - 🧪 **Form Handling** - React Hook Form with Zod validation
 
-## Project Structure
+## Project Structure:- 
 
 ```
 react-template-project/
