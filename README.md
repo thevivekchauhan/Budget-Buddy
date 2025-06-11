@@ -1,4 +1,4 @@
-# Welcome to my project.
+# Welcome to my project
 
 A clean, modern React template with TypeScript, Vite, TailwindCSS, and ShadCN UI components. This template provides a solid foundation for building web applications with best practices in mind.
 
