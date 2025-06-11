@@ -29,7 +29,6 @@ git clone https://github.com/thevivekchauhan/Budget-Buddy
 cd vivek's Budget Buddy
 ```
 
-2. Install dependencies:
 
 
 
