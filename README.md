@@ -78,6 +78,5 @@ react-template-project/
 
 ## Building for Production
 
-```bash
 
 
