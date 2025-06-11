@@ -44,7 +44,7 @@ npm run dev
 # or
 yarn dev
 # or
-pnpm dev
+
 
 
 4. Open your browser and visit `http://localhost:5173`
