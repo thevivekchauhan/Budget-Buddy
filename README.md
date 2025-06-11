@@ -30,7 +30,7 @@ cd vivek's Budget Buddy
 ```
 
 2. Install dependencies:
-```bash
+
 
 
 
