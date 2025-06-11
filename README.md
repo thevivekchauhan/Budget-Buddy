@@ -23,7 +23,6 @@ A clean, modern React template with TypeScript, Vite, TailwindCSS, and ShadCN UI
 
 ### Installation
 
-1. Clone this repository:
 
 
 
