@@ -79,6 +79,5 @@ react-template-project/
 ## Building for Production
 
 ```bash
-npm run build
 
 
