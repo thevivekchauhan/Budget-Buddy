@@ -26,7 +26,7 @@ A clean, modern React template with TypeScript, Vite, TailwindCSS, and ShadCN UI
 1. Clone this repository:
 ```bash
 git clone https://github.com/thevivekchauhan/Budget-Buddy
-cd vivek's Budget Buddy
+
 
 
 
